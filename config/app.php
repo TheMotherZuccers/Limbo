@@ -150,6 +150,7 @@ return [
         /*
          * Package Service Providers...
          */
+        'Toin0u\Geotools\GeotoolsServiceProvider',
 
         /*
          * Application Service Providers...
@@ -208,6 +209,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'Geotools' => 'Toin0u\Geotools\Facade\Geotools',
 
     ],
 
