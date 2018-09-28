@@ -23,3 +23,17 @@ Route::get('/', function () {
 Route::get('/presidents', function () {
     return \App\Http\Controllers\DataRetrieval\PresidentsController::get_presidents();
 });
+
+# Shows a simple map
+Route::get('/map', function () {
+    return \App\Http\Controllers\DataRetrieval\MapController::get_all_items();
+});
+
+# Route to see information on presidents
+Route::get('/map/{id}', function ($id) {
+    return \App\Http\Controllers\DataRetrieval\MapController::get_item_data($id);
+});
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
