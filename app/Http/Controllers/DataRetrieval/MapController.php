@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\DataRetrieval;
+namespace Limbo\Http\Controllers\DataRetrieval;
 
-use App\Http\Controllers\Controller;
+use Limbo\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 
 /**

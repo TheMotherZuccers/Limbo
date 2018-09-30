@@ -15,25 +15,29 @@
 
 # Home page route
 Route::get('/', function () {
-    return \App\Http\Controllers\DataRetrieval\StuffController::get_stuff();
+    return \Limbo\Http\Controllers\DataRetrieval\StuffController::get_stuff();
 });
 
 
 # Route to see information on presidents
 Route::get('/presidents', function () {
-    return \App\Http\Controllers\DataRetrieval\PresidentsController::get_presidents();
+    return \Limbo\Http\Controllers\DataRetrieval\PresidentsController::get_presidents();
 });
 
 # Shows a simple map
 Route::get('/map', function () {
-    return \App\Http\Controllers\DataRetrieval\MapController::get_all_items();
+    return \Limbo\Http\Controllers\DataRetrieval\MapController::get_all_items();
 });
 
 # Route to see information on presidents
 Route::get('/map/{id}', function ($id) {
-    return \App\Http\Controllers\DataRetrieval\MapController::get_item_data($id);
+    return \Limbo\Http\Controllers\DataRetrieval\MapController::get_item_data($id);
 });
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('admin', ['middleware' => 'admin', function () {
+    return \Limbo\Http\Controllers\DataRetrieval\AdminController::admin_home();
+}]);
