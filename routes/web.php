@@ -37,3 +37,7 @@ Route::get('/map/{id}', function ($id) {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('admin', ['middleware' => 'admin', function () {
+    return \App\Http\Controllers\DataRetrieval\AdminController::admin_home();
+}]);
