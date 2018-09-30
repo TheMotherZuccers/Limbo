@@ -1,6 +1,6 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
+    "name": "limbo/Limbo",
+    "description": "Lost and Found Done Right",
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "type": "project",
