@@ -6,9 +6,9 @@
  * Time: 2:46 PM
  */
 
-namespace App\Http\Controllers\DataRetrieval;
+namespace Limbo\Http\Controllers\DataRetrieval;
 
-use App\Http\Controllers\Controller;
+use Limbo\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
 
