@@ -25,7 +25,7 @@
             "database/factories"
         ],
         "psr-4": {
-            "Limbo\\": "app/"
+            "App\\": "app/"
         }
     },
     "autoload-dev": {

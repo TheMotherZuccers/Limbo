@@ -1,12 +1,12 @@
 <?php
 
-namespace Limbo\Http\Controllers\DataRetrieval;
+namespace App\Http\Controllers\DataRetrieval;
 
-use Limbo\Http\Controllers\Controller;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 
 /**
- * Handles getting data about presidents from app's DB
+ * Handles getting data about presidents from Limbo's DB
  *
  * @author William Kluge <klugewilliam@gmail.com>
  */

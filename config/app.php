@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'app'),
+    'name' => env('APP_NAME', 'Laravel'),
 
     /*
     |--------------------------------------------------------------------------
@@ -155,11 +155,11 @@ return [
         /*
          * Application Service Providers...
          */
-        Limbo\Providers\AppServiceProvider::class,
-        Limbo\Providers\AuthServiceProvider::class,
-        // app\Providers\BroadcastServiceProvider::class,
-        Limbo\Providers\EventServiceProvider::class,
-        Limbo\Providers\RouteServiceProvider::class,
+        App\Providers\AppServiceProvider::class,
+        App\Providers\AuthServiceProvider::class,
+        // App\Providers\BroadcastServiceProvider::class,
+        App\Providers\EventServiceProvider::class,
+        App\Providers\RouteServiceProvider::class,
 
     ],
 
