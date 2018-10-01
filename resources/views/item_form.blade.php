@@ -1,10 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    <?php
-    use Illuminate\Support\Facades\Auth;
-    ?>
-
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">

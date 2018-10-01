@@ -27,4 +27,8 @@ class Item extends Model {
         'finder_email', 'admin_email',
     ];
 
+    protected $spatialFields = [
+      'position_found',
+    ];
+
 }
