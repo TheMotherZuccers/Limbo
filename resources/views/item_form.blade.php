@@ -20,9 +20,9 @@
                         {{ Form::select('environment_found', ['inside' => 'Inside', 'sunny' => 'Sunny',
                         'rain' => 'Rain', 'snow' => 'Snow', 'humid' => 'Humid']) }}<br>
 
-                        {{--{{ Form::label('pos_x', 'Position Found') }}--}}
-                        {{--{{ Form::number('pos_x', null, ['class' => 'form-control','step' => '0.00001']) }}--}}
-                        {{--{{ Form::number('pos_y', null, ['class' => 'form-control','step' => '0.00001']) }}<br>--}}
+                        {{ Form::label('pos_x', 'Position Found') }}{{ Form::label('pos_y', ' ') }}
+                        {{ Form::number('pos_x', null, ['class' => 'form-control','step' => '0.00001', 'readonly']) }}
+                        {{ Form::number('pos_y', null, ['class' => 'form-control','step' => '0.00001', 'readonly']) }}<br>
 
                         {{ Form::label('position_radius', 'Position Radius') }}
                         {{ Form::number('position_radius', null) }}<br>
@@ -54,17 +54,17 @@
 
                     marker = new L.marker([41.72212, -73.93417], {draggable:'true'});
                     map.addLayer(marker);
+                    document.getElementById("pos_x").value = marker.getLatLng().lat;
+                    document.getElementById("pos_y").value = marker.getLatLng().lng;
 
-                    function onMapClick(e) {
-                        marker.on('dragend', function(event){
-                            var marker = event.target;
-                            var position = marker.getLatLng();
-                            marker.setLatLng(new L.LatLng(position.lat, position.lng),{draggable:'true'});
-                            map.panTo(new L.LatLng(position.lat, position.lng))
-                        });
-                    }
-
-                    map.on('click', onMapClick);
+                    marker.on('dragend', function(event){
+                        var marker = event.target;
+                        var position = marker.getLatLng();
+                        marker.setLatLng(new L.LatLng(position.lat, position.lng),{draggable:'true'});
+                        map.panTo(new L.LatLng(position.lat, position.lng))
+                        document.getElementById("pos_x").value = marker.getLatLng().lat;
+                        document.getElementById("pos_y").value = marker.getLatLng().lng;
+                    });
                 </script>
             </div>
         </div>
