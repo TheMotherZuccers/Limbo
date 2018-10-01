@@ -2,15 +2,22 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Limbo') }}</title>
+    <title>{{ config('app.name') }}</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
+          integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+          crossorigin=""/>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src= "{{ URL::asset('https://unpkg.com/leaflet@1.3.4/dist/leaflet.js') }}"
+            integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA=="
+            crossorigin=""></script>
+    <script src="{{ asset('js/app.js') }}"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
@@ -20,58 +27,58 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
     <!-- Styles -->
-    <style>
-        .laravel-style-bois {
-            /*background-color: #fff;*/
-            color: #636b6f;
-            font-family: 'Nunito', sans-serif;
-            font-weight: 200 !important;
-            height: 100vh;
-            margin: 0;
-        }
+    {{--<style>--}}
+        {{--.laravel-style-bois {--}}
+            {{--/*background-color: #fff;*/--}}
+            {{--color: #636b6f;--}}
+            {{--font-family: 'Nunito', sans-serif;--}}
+            {{--font-weight: 200 !important;--}}
+            {{--height: 100vh;--}}
+            {{--margin: 0;--}}
+        {{--}--}}
 
-        .full-height {
-            height: 100vh;
-        }
+        {{--.full-height {--}}
+            {{--height: 100vh;--}}
+        {{--}--}}
 
-        .flex-center {
-            align-items: center;
-            display: flex;
-            justify-content: center;
-        }
+        {{--.flex-center {--}}
+            {{--align-items: center;--}}
+            {{--display: flex;--}}
+            {{--justify-content: center;--}}
+        {{--}--}}
 
-        .position-ref {
-            position: relative;
-        }
+        {{--.position-ref {--}}
+            {{--position: relative;--}}
+        {{--}--}}
 
-        .top-right {
-            position: absolute;
-            right: 10px;
-            top: 18px;
-        }
+        {{--.top-right {--}}
+            {{--position: absolute;--}}
+            {{--right: 10px;--}}
+            {{--top: 18px;--}}
+        {{--}--}}
 
-        .content {
-            text-align: center;
-        }
+        {{--.content {--}}
+            {{--text-align: center;--}}
+        {{--}--}}
 
-        .title {
-            font-size: 84px;
-        }
+        {{--.title {--}}
+            {{--font-size: 84px;--}}
+        {{--}--}}
 
-        .links > a {
-            color: #636b6f;
-            padding: 0 25px;
-            font-size: 12px;
-            font-weight: 600;
-            letter-spacing: .1rem;
-            text-decoration: none;
-            text-transform: uppercase;
-        }
+        {{--.links > a {--}}
+            {{--color: #636b6f;--}}
+            {{--padding: 0 25px;--}}
+            {{--font-size: 12px;--}}
+            {{--font-weight: 600;--}}
+            {{--letter-spacing: .1rem;--}}
+            {{--text-decoration: none;--}}
+            {{--text-transform: uppercase;--}}
+        {{--}--}}
 
-        .m-b-md {
-            margin-bottom: 200px;
-        }
-    </style>
+        {{--.m-b-md {--}}
+            {{--margin-bottom: 200px;--}}
+        {{--}--}}
+    {{--</style>--}}
 </head>
 <body>
     <div id="app">

@@ -48,3 +48,7 @@ Route::get('item_form', function () {
 });
 
 Route::post('item_form', ['as' => 'form_url', 'uses' => 'ItemController@store']);
+
+Route::get('map_base', function() {
+    return View('map_base');
+});
