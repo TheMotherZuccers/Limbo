@@ -87,7 +87,8 @@
 
     <div class="content">
         <div class="title m-b-md">
-            GG EZIER
+            {{-- TODO mark items as claimed or not claimed in DB then feed only those to this page --}}
+            Unclaimed Items
         </div>
 
 
