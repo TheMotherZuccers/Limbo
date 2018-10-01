@@ -14,6 +14,16 @@ class ItemController extends Controller {
         return View('item_form');
     }
 
+    public static function show_items_on_map() {
+        $items = Item::all();
+        return View('map', compact('items'));
+    }
+
+    public static function get_item_data($id) {
+        $item = Item::find($id);
+        return View('map', compact('item'));
+    }
+
     /**
      * Create a new Item instance
      *

@@ -25,13 +25,13 @@ Route::get('/presidents', function () {
 });
 
 # Shows a simple map
-Route::get('/map', function () {
-    return \App\Http\Controllers\DataRetrieval\MapController::get_all_items();
+Route::get('/items', function () {
+    return \App\Http\Controllers\ItemController::show_items_on_map();
 });
 
 # Route to see information on presidents
-Route::get('/map/{id}', function ($id) {
-    return \App\Http\Controllers\DataRetrieval\MapController::get_item_data($id);
+Route::get('/item/{id}', function ($id) {
+    return \App\Http\Controllers\ItemController::get_item_data($id);
 });
 
 Auth::routes();

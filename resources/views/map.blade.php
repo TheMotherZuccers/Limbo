@@ -104,16 +104,16 @@
                 }).addTo(mymap);
             </script>
 
-            @if(isset($itemdata))
+            @if(isset($item))
                 <script>
-                    var marker = L.marker([{{  $itemdata->x }}, {{ $itemdata->y }}]).addTo(mymap);
-                    marker.bindPopup("<b>{{ $itemdata->description }}</b><br>Time Found: {{ $itemdata->time_found }}<br>Condition: {{ $itemdata->item_condition }}").openPopup();
+                    var marker = L.marker([{{  $item->position_found->getLat() }}, {{ $item->position_found->getLng() }}]).addTo(mymap);
+                    marker.bindPopup("<b>{{ $item->description }}</b><br>Time Found: {{ $item->created_at }}<br>").openPopup();
                 </script>
             @else
                 <script>
-                            @foreach($items as $item)
-                    var marker = L.marker([{{  $item->x }}, {{ $item->y }}]).addTo(mymap);
-                    marker.bindPopup("<b>{{ $item->description }}</b><br>Time Found: {{ $item->time_found }}<br>Condition: {{ $item->item_condition }}");
+                    @foreach($items as $item)
+                    var marker = L.marker([{{  $item->position_found->getLat() }}, {{ $item->position_found->getLng() }}]).addTo(mymap);
+                    marker.bindPopup("<b>{{ $item->description }}</b><br>Time Found: {{ $item->created_at }}<br>");
                     @endforeach
                 </script>
             @endif
