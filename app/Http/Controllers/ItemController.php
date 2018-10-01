@@ -10,15 +10,31 @@ use Illuminate\Http\Request;
 
 class ItemController extends Controller {
 
+    /**
+     * Returns the view to add items to the database
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public static function add_item() {
         return View('item_form');
     }
 
+    /**
+     * Gets data for all items and shows them on the map
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public static function show_items_on_map() {
         $items = Item::all();
         return View('map', compact('items'));
     }
 
+    /**
+     * Gets the data of one item and passed it to the map blade for display
+     *
+     * @param $id Integer ID of the item to get data for
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public static function get_item_data($id) {
         $item = Item::find($id);
         return View('map', compact('item'));

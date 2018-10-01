@@ -102,21 +102,18 @@
                     id: 'mapbox.streets',
                     accessToken: 'pk.eyJ1Ijoid2lsbGlhbWtsdWdlIiwiYSI6ImNqbW04eXB5dzBna2szcW83ajdlb2xpcmwifQ.RdkpVNHpUdMLV-2GJlTGTQ'
                 }).addTo(mymap);
-            </script>
 
-            @if(isset($item))
-                <script>
-                    var marker = L.marker([{{  $item->position_found->getLat() }}, {{ $item->position_found->getLng() }}]).addTo(mymap);
-                    marker.bindPopup("<b>{{ $item->description }}</b><br>Time Found: {{ $item->created_at }}<br>").openPopup();
-                </script>
-            @else
-                <script>
-                    @foreach($items as $item)
-                    var marker = L.marker([{{  $item->position_found->getLat() }}, {{ $item->position_found->getLng() }}]).addTo(mymap);
-                    marker.bindPopup("<b>{{ $item->description }}</b><br>Time Found: {{ $item->created_at }}<br>");
-                    @endforeach
-                </script>
-            @endif
+                        @if(isset($item))
+                var marker = L.marker([{{  $item->position_found->getLat() }}, {{ $item->position_found->getLng() }}]).addTo(mymap);
+                marker.bindPopup("<b>{{ $item->description }}</b><br>Time Found: {{ $item->created_at }}<br>").openPopup();
+                        @else
+
+                        @foreach($items as $item)
+                var marker = L.marker([{{  $item->position_found->getLat() }}, {{ $item->position_found->getLng() }}]).addTo(mymap);
+                marker.bindPopup("<b>{{ $item->description }}</b><br>Time Found: {{ $item->created_at }}<br><a href=\'/item/{{ $item->id }}\'>Item Information</a><br>");
+                @endforeach
+                @endif
+            </script>
         @show
 
     </div>
