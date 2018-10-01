@@ -26,7 +26,7 @@ class ItemController extends Controller {
      */
     public static function show_items_on_map() {
         $items = Item::all();
-        return View('map', compact('items'));
+        return View('item', compact('items'));
     }
 
     /**
@@ -37,7 +37,7 @@ class ItemController extends Controller {
      */
     public static function get_item_data($id) {
         $item = Item::find($id);
-        return View('map', compact('item'));
+        return View('item', compact('item'));
     }
 
     /**
