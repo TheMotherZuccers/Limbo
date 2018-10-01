@@ -20,9 +20,9 @@
                         {{ Form::select('environment_found', ['inside' => 'Inside', 'sunny' => 'Sunny',
                         'rain' => 'Rain', 'snow' => 'Snow', 'humid' => 'Humid']) }}<br>
 
-                        {{ Form::label('pos_x', 'Position Found') }}
-                        {{ Form::number('pos_x', null, ['class' => 'form-control','step' => '0.00001']) }}
-                        {{ Form::number('pos_y', null, ['class' => 'form-control','step' => '0.00001']) }}<br>
+                        {{--{{ Form::label('pos_x', 'Position Found') }}--}}
+                        {{--{{ Form::number('pos_x', null, ['class' => 'form-control','step' => '0.00001']) }}--}}
+                        {{--{{ Form::number('pos_y', null, ['class' => 'form-control','step' => '0.00001']) }}<br>--}}
 
                         {{ Form::label('position_radius', 'Position Radius') }}
                         {{ Form::number('position_radius', null) }}<br>
@@ -40,16 +40,31 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <div id="mapids" style="height: 360px; width: 720px;"></div>
+                <h3 style="text-align: center">Move the marker to where the item was found</h3>
+                <div id="mapids" style="height: 360px; width: 100%;"></div>
                 <script>
-                    var mymap = L.map('mapids').setView([41.72212, -73.93417], 15);
+                    var map = L.map('mapids').setView([41.72212, -73.93417], 15);
 
                     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
                         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
                         maxZoom: 18,
                         id: 'mapbox.streets',
                         accessToken: 'pk.eyJ1Ijoid2lsbGlhbWtsdWdlIiwiYSI6ImNqbW04eXB5dzBna2szcW83ajdlb2xpcmwifQ.RdkpVNHpUdMLV-2GJlTGTQ'
-                    }).addTo(mymap);
+                    }).addTo(map);
+
+                    marker = new L.marker([41.72212, -73.93417], {draggable:'true'});
+                    map.addLayer(marker);
+
+                    function onMapClick(e) {
+                        marker.on('dragend', function(event){
+                            var marker = event.target;
+                            var position = marker.getLatLng();
+                            marker.setLatLng(new L.LatLng(position.lat, position.lng),{draggable:'true'});
+                            map.panTo(new L.LatLng(position.lat, position.lng))
+                        });
+                    }
+
+                    map.on('click', onMapClick);
                 </script>
             </div>
         </div>
