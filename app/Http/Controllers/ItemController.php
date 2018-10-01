@@ -29,6 +29,10 @@ class ItemController extends Controller {
         return View('item', compact('items'));
     }
 
+    public static function get_items() {
+        return Item::all();
+    }
+
     /**
      * Gets the data of one item and passed it to the map blade for display
      *

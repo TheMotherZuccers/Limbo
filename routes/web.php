@@ -15,7 +15,8 @@
 
 # Home page route
 Route::get('/', function () {
-    return \App\Http\Controllers\DataRetrieval\StuffController::get_stuff();
+    $items = \App\Http\Controllers\ItemController::get_items();
+    return View('welcome', compact('items'));
 });
 
 
