@@ -7,7 +7,7 @@
             <h3>Lost and Found Done Right</h3>
             <div class="row">
                 <div class="col-md-6">
-                    <table class="table table-striped">
+                    <table class="table table-striped" id="item_table">
                         <thead>
                         <tr>
                             <th scope="col">Item ID</th>
@@ -18,7 +18,7 @@
                         <tbody>
                         @foreach($items as $item)
                             <tr>
-                                <th scope="row"><a href="/item/{{ $item->id }}">{{ $item->id }}</a></th>
+                                <td scope="row">{{ $item->id }}</td>
                                 <td>{{ $item->description }}</td>
                                 <td>{{ $item->created_at }}</td>
                             </tr>
@@ -37,10 +37,38 @@
                             id: 'mapbox.streets',
                             accessToken: 'pk.eyJ1Ijoid2lsbGlhbWtsdWdlIiwiYSI6ImNqbW04eXB5dzBna2szcW83ajdlb2xpcmwifQ.RdkpVNHpUdMLV-2GJlTGTQ'
                         }).addTo(mymap);
+
+                        // Dictionary for storing the popups to be used with table clicks
+                        var popupDict = {};
+
                                 @foreach($items as $item)
                         var marker = L.marker([{{  $item->position_found->getLat() }}, {{ $item->position_found->getLng() }}]).addTo(mymap);
                         marker.bindPopup("<b>{{ $item->description }}</b><br>Time Found: {{ $item->created_at }}<br><a href=\'/item/{{ $item->id }}\'>Item Information</a><br>");
+                        popupDict["{{ $item->id }}"] = marker;
                         @endforeach
+
+                        console.log(popupDict);
+
+                        function addRowHandlers() {
+                            var table = document.getElementById("item_table");
+                            var rows = table.getElementsByTagName("tr");
+                            for (i = 0; i < rows.length; i++) {
+                                var currentRow = table.rows[i];
+                                var createClickHandler = function(row) {
+                                    return function() {
+                                        var cell = row.getElementsByTagName("td")[0];
+                                        console.log(cell);
+                                        var id = cell.innerHTML;
+                                        console.log(id);
+                                        popupDict[id].openPopup();
+                                    };
+                                };
+                                currentRow.onclick = createClickHandler(currentRow);
+                            }
+                        }
+
+                        addRowHandlers();
+
                     </script>
                 </div>
             </div>
