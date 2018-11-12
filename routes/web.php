@@ -19,12 +19,6 @@ Route::get('/', function () {
     return View('welcome', compact('items'));
 });
 
-
-# Route to see information on presidents
-Route::get('/presidents', function () {
-    return \App\Http\Controllers\DataRetrieval\PresidentsController::get_presidents();
-});
-
 # Shows a simple map
 Route::get('/items', function () {
     return \App\Http\Controllers\ItemController::show_items_on_map();
@@ -34,6 +28,8 @@ Route::get('/items', function () {
 Route::get('/item/{id}', function ($id) {
     return \App\Http\Controllers\ItemController::get_item_data($id);
 });
+
+Route::put('update_item', ['as' => 'form_url', 'uses' => 'ItemController@update']);
 
 Auth::routes();
 
