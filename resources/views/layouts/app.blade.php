@@ -94,7 +94,15 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
+                        @guest
+                            <li class="nav-item">
+                                <div>You must be logged in to add an item</div>
+                            </li>
+                        @else
+                            <li class="nav-item">
+                                <a href="/report_item">Report a lost or found item</a>
+                            </li>
+                        @endguest
                     </ul>
 
                     <!-- Right Side Of Navbar -->
