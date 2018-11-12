@@ -10,7 +10,7 @@
                     {{-- TODO mark if item was lost or if it was found --}}
 
                     <div class="card-body">
-                        {{ Form::open(array('url' => 'item_form')) }}
+                        {{ Form::open(array('url' => 'report_item')) }}
 
                         {{ Form::label('description', 'Description') }}
                         {{ Form::text('description') }}<br>
