@@ -99,8 +99,15 @@
                                 <div>You must be logged in to add an item</div>
                             </li>
                         @else
-                            <li class="nav-item">
-                                <a href="/report_item">Report a lost or found item</a>
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    Report an item as lost or found <span class="caret"></span>
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a href="/report_item/found">I found an item</a><br>
+                                    <a href="/report_item/found">I lost an item</a>
+                                </div>
                             </li>
                         @endguest
                     </ul>
