@@ -15,8 +15,12 @@
                         {{ Form::label('description', 'Description') }}
                         {{ Form::text('description') }}<br>
 
-                        {{ Form::label('notable_damage', 'Notable Damage') }}
-                        {{ Form::text('notable_damage') }}<br>
+                        @if ($senario == 'found')
+                            {{ Form::label('notable_damage', 'Notable Damage') }}
+                            {{ Form::text('notable_damage') }}<br>
+                        @else
+                            {{-- No else conditions --}}
+                        @endif
 
                         {{ Form::label('environment_found', 'Environment Item was Found In') }}
                         {{ Form::select('environment_found', ['inside' => 'Inside', 'sunny' => 'Sunny',
