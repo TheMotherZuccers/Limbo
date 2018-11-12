@@ -11,7 +11,8 @@ use App\Http\Controllers\Controller;
 class AdminController extends Controller {
 
     public static function admin_home() {
-        return View('admin');
+        $items = Item::all();
+        return View('admin', compact('items'));
     }
 
 }
