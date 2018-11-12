@@ -31,7 +31,7 @@ class ItemController extends Controller {
     }
 
     public static function get_items() {
-        return Item::all();
+        return Item::where('hidden', false)->get();
     }
 
     /**
