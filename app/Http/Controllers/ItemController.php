@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Item;
 use App\User;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Grimzy\LaravelMysqlSpatial\Types\Point;
 use Illuminate\Http\Request;
@@ -67,6 +68,61 @@ class ItemController extends Controller {
         $item->save();
 
         return redirect('/');
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int $id
+     * @return
+     */
+    public function edit($id)
+    {
+        $item = Item::find($id);
+
+        return View::make('item')->with('item', $item);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  int $id
+     * @return
+     */
+    public function update(Request $request)
+    {
+        // validate
+        // read more on validation at http://laravel.com/docs/validation
+//        $rules = array(
+//            'name'       => 'required',
+//            'email'      => 'required|email',
+//            'nerd_level' => 'required|numeric'
+//        );
+//        $validator = Validator::make(Input::all(), $rules);
+//
+//        // process the login
+//        if ($validator->fails()) {
+//            return Redirect::to('nerds/' . $id . '/edit')
+//                ->withErrors($validator)
+//                ->withInput(Input::except('password'));
+//        } else {
+            // store
+            $item = Item::find($request->id);
+            $item->description = $request->description;
+            $item->notable_damage = $request->notable_damage;
+            $item->environment_found = $request->environment_found;
+            $item->position_found = new Point($request->pos_x, $request->pos_y);
+            $item->position_radius =  $request->position_radius;
+            $item->position_comment = $request->position_comment;
+
+            // Special case to allow admins to hide items. Will still be kept in the DB but won't be shown
+            if (Auth::user()->type == 'admin') {
+                $item->hidden = $request->remove_listing;
+            }
+
+            $item->save();
+
+        return redirect('/item/' . $request->id);
     }
 
 }
