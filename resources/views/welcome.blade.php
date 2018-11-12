@@ -47,8 +47,6 @@
                         popupDict["{{ $item->id }}"] = marker;
                         @endforeach
 
-                        console.log(popupDict);
-
                         function addRowHandlers() {
                             var table = document.getElementById("item_table");
                             var rows = table.getElementsByTagName("tr");
