@@ -91,6 +91,7 @@
             Unclaimed Items
         </div>
 
+        {{-- TODO update item --}}
 
         @section("map")
             <div id="mapid" style="height: 360px; width: 720px;"></div>

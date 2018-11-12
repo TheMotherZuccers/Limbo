@@ -7,6 +7,8 @@
                 <div class="card">
                     <div class="card-header">Add an Item</div>
 
+                    {{-- TODO mark if item was lost or if it was found --}}
+
                     <div class="card-body">
                         {{ Form::open(array('url' => 'item_form')) }}
 
