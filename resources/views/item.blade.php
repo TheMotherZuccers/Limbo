@@ -13,6 +13,7 @@
                             <th scope="col">Item ID</th>
                             <th scope="col">Description</th>
                             <th scope="col">Time Entered</th>
+                            <th scope="col">Claimed?</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -20,6 +21,7 @@
                                 <td scope="row">{{ $item->id }}</td>
                                 <td>{{ $item->description }}</td>
                                 <td>{{ $item->created_at }}</td>
+                                <td>{{ $item->claimed</td>
                             </tr>
                         </tbody>
                     </table>
