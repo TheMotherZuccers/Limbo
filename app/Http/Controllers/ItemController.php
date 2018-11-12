@@ -114,6 +114,12 @@ class ItemController extends Controller {
             $item->position_found = new Point($request->pos_x, $request->pos_y);
             $item->position_radius =  $request->position_radius;
             $item->position_comment = $request->position_comment;
+
+            // Special case to allow admins to hide items. Will still be kept in the DB but won't be shown
+            if (Auth::user()->type == 'admin') {
+                $item->hidden = $request->remove_listing;
+            }
+
             $item->save();
 
         return redirect('/item/' . $request->id);

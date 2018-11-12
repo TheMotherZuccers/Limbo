@@ -39,6 +39,12 @@
                             {{ Form::label('finder_email', 'Finder\'s Email') }}
                             {{ Form::text('finder_email') }}<br>
 
+                            {{-- Allows admins to remove listings from Limbo --}}
+                            @if (Auth::user()->type == 'admin')
+                                {{ Form::label('remove_listing', 'Remove Listing') }}
+                                {{ Form::checkbox('remove_listing') }}<br>
+                            @endif
+
                             {{ Form::submit('Update Item') }}
 
                             {{ Form::close() }}
