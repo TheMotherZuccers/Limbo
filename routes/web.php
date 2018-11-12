@@ -43,11 +43,11 @@ Route::get('admin', ['middleware' => 'admin', function () {
     return \App\Http\Controllers\DataRetrieval\AdminController::admin_home();
 }]);
 
-Route::get('item_form', function () {
+Route::get('report_item', function () {
     return \App\Http\Controllers\ItemController::add_item();
 });
 
-Route::post('item_form', ['as' => 'form_url', 'uses' => 'ItemController@store']);
+Route::post('report_item', ['as' => 'form_url', 'uses' => 'ItemController@store']);
 
 Route::get('map_base', function() {
     return View('map_base');
