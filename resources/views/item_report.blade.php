@@ -6,7 +6,8 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">Add an Item</div>
-
+                    
+                    
                     {{-- TODO mark if item was lost or if it was found --}}
 
                     <div class="card-body">
@@ -17,24 +18,35 @@
 
                         {{ Form::label('notable_damage', 'Notable Damage') }}
                         {{ Form::text('notable_damage') }}<br>
-
-                        {{ Form::label('environment_found', 'Environment Item was Found In') }}
-                        {{ Form::select('environment_found', ['inside' => 'Inside', 'sunny' => 'Sunny',
-                        'rain' => 'Rain', 'snow' => 'Snow', 'humid' => 'Humid']) }}<br>
-
-                        {{ Form::label('pos_x', 'Position Found') }}{{ Form::label('pos_y', ' ') }}
-                        {{ Form::number('pos_x', null, ['class' => 'form-control','step' => '0.00001', 'readonly']) }}
-                        {{ Form::number('pos_y', null, ['class' => 'form-control','step' => '0.00001', 'readonly']) }}<br>
-
+                        
+                        @if ($scenario == 'found')
+                            {{ Form::label('environment_found', 'Environment Item was Found In') }}
+                            {{ Form::select('environment_found', ['inside' => 'Inside', 'sunny' => 'Sunny',
+                            'rain' => 'Rain', 'snow' => 'Snow', 'humid' => 'Humid']) }}<br>
+                        
+                            {{ Form::label('pos_x', 'Position Found') }}{{ Form::label('pos_y', ' ') }}
+                            {{ Form::number('pos_x', null, ['class' => 'form-control','step' => '0.00001', 'readonly']) }}
+                            {{ Form::number('pos_y', null, ['class' => 'form-control','step' => '0.00001', 'readonly']) }}<br>
+                        @else
+                            {{ Form::label('environment_found', 'Environment Item was Lost In') }}
+                            {{ Form::select('environment_found', ['inside' => 'Inside', 'sunny' => 'Sunny',
+                            'rain' => 'Rain', 'snow' => 'Snow', 'humid' => 'Humid']) }}<br>
+                        @endif
+                        
                         {{ Form::label('position_radius', 'Position Radius') }}
                         {{ Form::number('position_radius', null) }}<br>
 
                         {{ Form::label('position_comment', 'Position Comment') }}
                         {{ Form::text('position_comment') }}<br>
 
-                        {{ Form::label('finder_email', 'Finder\'s Email') }}
-                        {{ Form::text('finder_email') }}<br>
-
+                        @if ($scenario == 'found')
+                            {{ Form::label('finder_email', 'Finder\'s Email') }}
+                            {{ Form::text('finder_email') }}<br>
+                        @else
+                            {{ Form::label('finder_email', 'Your Email') }}
+                            {{ Form::text('finder_email') }}<br>
+                        @endif
+                        
                         {{ Form::submit('Add Item') }}
 
                         {{ Form::close() }}
