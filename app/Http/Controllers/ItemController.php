@@ -15,8 +15,8 @@ class ItemController extends Controller {
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public static function add_item() {
-        return View('item_report');
+    public static function add_item($senario) {
+        return View('item_report', compact('senario'));
     }
 
     /**
