@@ -106,7 +106,7 @@
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a href="/report_item/found">I found an item</a><br>
-                                    <a href="/report_item/found">I lost an item</a>
+                                    <a href="/report_item/lost">I lost an item</a>
                                 </div>
                             </li>
 
