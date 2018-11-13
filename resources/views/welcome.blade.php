@@ -35,6 +35,7 @@
                         @endforeach
                         </tbody>
                     </table>
+                    {{ $items->links() }}
                 </div>
                 <div class="col-md-6">
                     <div id="mapid" style="height: 360px; width: 500px;"></div>
