@@ -21,18 +21,13 @@ class ItemController extends Controller {
         return View('item_report', compact('senario'));
     }
 
-    /**
-     * Gets data for all items and shows them on the map
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public static function show_items_on_map() {
-        $items = Item::all();
-        return View('item', compact('items'));
-    }
-
     public static function get_items() {
         return Item::where('hidden', false)->get();
+    }
+
+    public static function paginate_five() {
+        $items = Item::where('hidden', false)->paginate(5);
+        return View('welcome', compact('items'));
     }
 
     /**

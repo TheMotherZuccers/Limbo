@@ -14,10 +14,11 @@
 */
 
 # Home page route
-Route::get('/', function () {
-    $items = \App\Http\Controllers\ItemController::get_items();
-    return View('welcome', compact('items'));
-});
+//Route::get('/', function () {
+//    $items = \App\Http\Controllers\ItemController::get_items();
+//    return View('welcome', compact('items'));
+//});
+Route::get('/', 'ItemController@paginate_five');
 
 // Page to update items (for admins and posters) and to view information on an item (everybody)
 Route::get('/item/{id}', function ($id) {
