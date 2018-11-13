@@ -16,7 +16,7 @@
                         {{ Form::label('notable_damage', 'Notable Damage') }}
                         {{ Form::text('notable_damage') }}<br>
                         
-                        @if ($scenario == 'found')
+                        @if ($senario == 'found')
                             {{ Form::label('environment_found', 'Environment Item was Found In') }}
                             {{ Form::select('environment_found', ['inside' => 'Inside', 'sunny' => 'Sunny',
                             'rain' => 'Rain', 'snow' => 'Snow', 'humid' => 'Humid']) }}<br>
@@ -40,7 +40,7 @@
                         {{ Form::label('position_comment', 'Position Comment') }}
                         {{ Form::text('position_comment') }}<br>
 
-                        @if ($scenario == 'found')
+                        @if ($senario == 'found')
                             {{ Form::label('finder_email', 'Finder\'s Email') }}
                             {{ Form::text('finder_email') }}<br>
                         @else
