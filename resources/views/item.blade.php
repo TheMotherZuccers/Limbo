@@ -41,8 +41,8 @@
 
                             {{-- Allows admins to remove listings from Limbo --}}
                             @if (Auth::user()->type == 'admin')
-                                {{ Form::label('remove_listing', 'Remove Listing') }}
-                                {{ Form::checkbox('remove_listing') }}<br>
+                                {{ Form::label('hidden', 'Remove Listing') }}
+                                {{ Form::checkbox('hidden') }}<br>
                             @endif
 
                             {{ Form::submit('Update Item') }}
