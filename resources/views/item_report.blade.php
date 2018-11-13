@@ -7,8 +7,6 @@
                 <div class="card">
                     <div class="card-header">Add an Item</div>
                     
-                    
-                    {{-- TODO mark if item was lost or if it was found --}}
 
                     <div class="card-body">
                         {{ Form::open(array('url' => 'report_item')) }}
@@ -31,6 +29,10 @@
                             {{ Form::label('environment_found', 'Environment Item was Lost In') }}
                             {{ Form::select('environment_found', ['inside' => 'Inside', 'sunny' => 'Sunny',
                             'rain' => 'Rain', 'snow' => 'Snow', 'humid' => 'Humid']) }}<br>
+                        
+                            {{ Form::label('pos_x', 'Position Found') }}{{ Form::label('pos_y', ' ') }}
+                            {{ Form::number('pos_x', null, ['class' => 'form-control','step' => '0.00001', 'readonly']) }}
+                            {{ Form::number('pos_y', null, ['class' => 'form-control','step' => '0.00001', 'readonly']) }}<br>
                         @endif
                         
                         {{ Form::label('position_radius', 'Position Radius') }}
