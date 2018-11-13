@@ -109,6 +109,12 @@
                                     <a href="/report_item/found">I lost an item</a>
                                 </div>
                             </li>
+
+                            @if (Auth::user()->type == 'admin')
+                                <li class="nav-item">
+                                    <a href="/admin">Admin Dashboard</a>
+                                </li>
+                            @endif
                         @endguest
                     </ul>
 

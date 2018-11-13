@@ -6,7 +6,6 @@
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">Add an Item</div>
-                    
 
                     <div class="card-body">
                         {{ Form::open(array('url' => 'report_item')) }}
