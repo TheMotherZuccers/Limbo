@@ -50,7 +50,23 @@
                             {{ Form::close() }}
                         </div>
                     @else
-
+                        {{-- This is what to display if the user does have editing permission--}}
+                        <table class="table table-striped" id="item_table">
+                            <thead>
+                            <tr>
+                                <th scope="col">Item ID</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Time Entered</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td scope="row">{{ $item->id }}</td>
+                                    <td>{{ $item->description }}</td>
+                                    <td>{{ $item->created_at }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     @endif
                 </div>
             </div>
