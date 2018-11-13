@@ -117,7 +117,11 @@ class ItemController extends Controller {
 
             // Special case to allow admins to hide items. Will still be kept in the DB but won't be shown
             if (Auth::user()->type == 'admin') {
-                $item->hidden = $request->remove_listing;
+                if ($request->hidden == null){
+                    $item->hidden = 0;
+                } else{
+                    $item->hidden = $request->hidden;
+                }
             }
 
             $item->save();
