@@ -5,9 +5,9 @@
         <div class="laravel-style-bois">
             <h1>{{ config('app.name') }}</h1>
             <h3>Lost and Found Done Right</h3>
-            <h4>Click on any of the items to see its location on the map</h4>
             <div class="row">
                 <div class="col-md-6">
+                    <h4>Click on any item to see its location on the map</h4>
                     <table class="table table-striped" id="item_table">
                         <thead>
                         <tr>
