@@ -65,6 +65,8 @@ class ItemController extends Controller {
         $item->position_comment = $request->position_comment;
         $item->finder_id = User::all()->where('email', $request->finder_email)->first()->id;
         $item->admin_id = Auth::id();
+        $item->hidden = 0;
+        $item->lost = $request->lost;
 
         $item->save();
 

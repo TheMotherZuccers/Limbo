@@ -47,6 +47,8 @@
                             {{ Form::label('finder_email', 'Your Email') }}
                             {{ Form::text('finder_email') }}<br>
                         @endif
+
+                        {{ Form::hidden('lost', $senario == 'lost' ? 1 : 0) }}
                         
                         {{ Form::submit('Add Item') }}
 
