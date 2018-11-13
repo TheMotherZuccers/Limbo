@@ -1,6 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
+    <style>
+        #item-table-body tr:hover {
+            background-color: #ccc;
+        }
+        #item-table-body td:hover {
+            cursor: pointer;
+        }
+    </style>
+
     <div class="flex-center position-ref full-height content">
         <div class="laravel-style-bois">
             <h1>{{ config('app.name') }}</h1>
@@ -16,7 +25,7 @@
                             <th scope="col">Time Entered</th>
                         </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="item-table-body">
                         @foreach($items as $item)
                             <tr>
                                 <td scope="row">{{ $item->id }}</td>
