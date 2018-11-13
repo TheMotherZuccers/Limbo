@@ -39,9 +39,7 @@ Route::get('admin', ['middleware' => 'admin', function () {
     return \App\Http\Controllers\DataRetrieval\AdminController::admin_home();
 }]);
 
-Route::get('report_item/{senario}', function ($senario) {
-    return \App\Http\Controllers\ItemController::add_item($senario);
-});
+Route::get('report_item/{senario}','ItemController@add_item')->where('senario', '(lost)|(found)');
 
 Route::post('report_item', ['as' => 'form_url', 'uses' => 'ItemController@store']);
 
