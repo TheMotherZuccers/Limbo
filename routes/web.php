@@ -19,30 +19,25 @@ Route::get('/', function () {
     return View('welcome', compact('items'));
 });
 
-# Shows a simple map
-Route::get('/items', function () {
-    return \App\Http\Controllers\ItemController::show_items_on_map();
-});
-
-# Route to see information on presidents
+// Page to update items (for admins and posters) and to view information on an item (everybody)
 Route::get('/item/{id}', function ($id) {
     return \App\Http\Controllers\ItemController::get_item_data($id);
 });
 
 Route::put('update_item', ['as' => 'form_url', 'uses' => 'ItemController@update']);
 
+// Generates the nessesary routes for authentication
 Auth::routes();
 
+// Homepage for users when they initially login
 Route::get('/home', 'HomeController@index')->name('home');
 
+// Admin dashboard
 Route::get('admin', ['middleware' => 'admin', function () {
     return \App\Http\Controllers\DataRetrieval\AdminController::admin_home();
 }]);
 
+// Report item page
 Route::get('report_item/{senario}','ItemController@add_item')->where('senario', '(lost)|(found)');
-
+// Report item post url
 Route::post('report_item', ['as' => 'form_url', 'uses' => 'ItemController@store']);
-
-Route::get('map_base', function() {
-    return View('map_base');
-});
