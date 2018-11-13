@@ -29,7 +29,8 @@
                         @foreach($items as $item)
                             <tr>
                                 <td scope="row">{{ $item->id }}</td>
-                                <td>{{ $item->description }}</td>
+                                {{-- TODO limit the character's based on the size of the text area --}}
+                                <td>{{ str_limit($item->description, $limit=35, $end='...') }}</td>
                                 <td>{{ $item->created_at }}</td>
                             </tr>
                         @endforeach
