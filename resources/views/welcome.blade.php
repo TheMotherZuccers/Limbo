@@ -37,7 +37,7 @@
                         <tbody id="item-table-body">
                         @foreach($items as $item)
                             <tr>
-                                <td scope="row">{{ $item->id }}</td>
+                                <td scope="row">{{$item->id}}</td>
                                 {{-- TODO limit the character's based on the size of the text area --}}
                                 <td>{{ $item->description }}</td>
                                 <td>{{ $item->created_at }}</td>
@@ -47,7 +47,6 @@
                             {{ $items->links() }}
                         </caption>
                         </tbody>
-
                     </table>
 
                 </div>
@@ -86,7 +85,7 @@
         @endforeach
 
         function addRowHandlers() {
-            var table = document.getElementById("item_table");
+            var table = document.getElementById("item-table-body");
             var rows = table.getElementsByTagName("tr");
             for (i = 0; i < rows.length; i++) {
                 var currentRow = table.rows[i];
@@ -94,7 +93,7 @@
                     return function () {
                         var cell = row.getElementsByTagName("td")[0];
                         console.log(cell);
-                        var id = cell.innerHTML;
+                        var id = cell.innerText.trim();
                         console.log(id);
                         popupDict[id].openPopup();
                     };
