@@ -5,10 +5,9 @@
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card">
-                    @if (!Auth::guest() &&( $item->finder_id == Auth::user()->id || Auth::user()->type == 'admin'))
-                        <div class="card-header">Add an Item</div>
-
-                        {{-- TODO mark if item was lost or if it was found --}}
+                    <?php $authenticated = !Auth::guest() && ($item->finder_id == Auth::user()->id || Auth::user()->type == 'admin') ?>
+                    @if ($authenticated)
+                        <div class="card-header">Update an Item</div>
 
                         <div class="card-body">
                             {{ Form::model($item, array('url' => 'update_item', 'method' => 'PUT')) }}
@@ -28,7 +27,8 @@
 
                             {{ Form::label('pos_x', 'Position Found') }}{{ Form::label('pos_y', ' ') }}
                             {{ Form::number('pos_x', null, ['class' => 'form-control','step' => '0.00001', 'readonly']) }}
-                            {{ Form::number('pos_y', null, ['class' => 'form-control','step' => '0.00001', 'readonly']) }}<br>
+                            {{ Form::number('pos_y', null, ['class' => 'form-control','step' => '0.00001', 'readonly']) }}
+                            <br>
 
                             {{ Form::label('position_radius', 'Position Radius') }}
                             {{ Form::number('position_radius', null) }}<br>
@@ -77,7 +77,9 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <h3 style="text-align: center">Move the marker to where the item was found</h3>
+                @if ($authenticated)
+                    <h3 style="text-align: center">Move the marker to where the item was found</h3>
+                @endif
                 <div id="mapids" style="height: 360px; width: 100%;"></div>
                 <script>
                     var map = L.map('mapids').setView([41.72212, -73.93417], 15);
@@ -89,15 +91,15 @@
                         accessToken: 'pk.eyJ1Ijoid2lsbGlhbWtsdWdlIiwiYSI6ImNqbW04eXB5dzBna2szcW83ajdlb2xpcmwifQ.RdkpVNHpUdMLV-2GJlTGTQ'
                     }).addTo(map);
 
-                    marker = new L.marker([41.72212, -73.93417], {draggable:'true'});
+                    marker = new L.marker([41.72212, -73.93417], {draggable: 'true'});
                     map.addLayer(marker);
                     document.getElementById("pos_x").value = marker.getLatLng().lat;
                     document.getElementById("pos_y").value = marker.getLatLng().lng;
 
-                    marker.on('dragend', function(event){
+                    marker.on('dragend', function (event) {
                         var marker = event.target;
                         var position = marker.getLatLng();
-                        marker.setLatLng(new L.LatLng(position.lat, position.lng),{draggable:'true'});
+                        marker.setLatLng(new L.LatLng(position.lat, position.lng), {draggable: 'true'});
                         map.panTo(new L.LatLng(position.lat, position.lng))
                         document.getElementById("pos_x").value = marker.getLatLng().lat;
                         document.getElementById("pos_y").value = marker.getLatLng().lng;
