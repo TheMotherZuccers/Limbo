@@ -52,7 +52,8 @@
 
                 </div>
                 <div class="col-5">
-                    <div id="mapid" style="height: 100%; width: 100%;"></div>
+                    {{-- Starts as hidden so our magic JS can make it visible when it's loaded --}}
+                    <div id="mapid" style="height: 100%; width: 100%; display: none;"></div>
                 </div>
             </div>
         </div>
@@ -60,7 +61,10 @@
 
     <script>
         {{-- So this works...basically it invalidates the size of the map after the page is loaded --}}
-        setTimeout(function(){ mymap.invalidateSize()}, 0);
+        setTimeout(function () {
+            document.getElementById("mapid").style.display = "block";
+            mymap.invalidateSize();
+        }, 400);
 
         var mymap = L.map('mapid').setView([41.72212, -73.93417], 14);
 
