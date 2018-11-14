@@ -52,20 +52,26 @@
                     @else
                         {{-- This is what to display if the user does have editing permission--}}
                         <table class="table table-striped" id="item_table">
-                            <thead>
                             <tr>
-                                <th scope="col">Item ID</th>
-                                <th scope="col">Description</th>
-                                <th scope="col">Time Entered</th>
+                                <th>Description</th>
+                                <td>{{ $item->description }}</td>
                             </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td scope="row">{{ $item->id }}</td>
-                                    <td>{{ $item->description }}</td>
-                                    <td>{{ $item->created_at }}</td>
-                                </tr>
-                            </tbody>
+                            <tr>
+                                <th>Comment</th>
+                                <td>{{ $item->position_comment }}</td>
+                            </tr>
+                            <tr>
+                                <th>Notable Damage</th>
+                                <td>{{ $item->notable_damage }}</td>
+                            </tr>
+                            <tr>
+                                <th>Time Entered</th>
+                                <td>{{ $item->created_at }}</td>
+                            </tr>
+                            <tr>
+                                <th>Last Updated At</th>
+                                <td>{{ $item->updated_at }}</td>
+                            </tr>
                         </table>
                     @endif
                 </div>
