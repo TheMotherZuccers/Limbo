@@ -31,4 +31,8 @@ class Item extends Model {
       'position_found',
     ];
 
+    public function finder() {
+        return $this->belongsTo('App\User', 'finder_id');
+    }
+
 }

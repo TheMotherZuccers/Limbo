@@ -44,7 +44,7 @@
                     <td>{{ $item->created_at }}</td>
                     <td>{{ $item->updated_at }} </td>
                     <td>{{ $item->position_comment }}</td>
-                    <td>{{ $item->finder_email }}</td>
+                    <td>{{ $item->finder->email }}</td>
                 </tr>
             @endforeach
             </tbody>
