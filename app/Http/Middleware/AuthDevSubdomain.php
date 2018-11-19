@@ -22,8 +22,14 @@ class AuthDevSubdomain {
             return $next($request);
         }
 
-        // User needs to login to access pages
-        return redirect('/login');
+        if ($request->is('home')) {
+            // User is logged in, but is not an admin
+            // Or user directed themself to home, in which case fine, also tell them they need to be an admin
+            return response('Access to this domain requires admin authorization.');
+        } else {
+            // User needs to login to access pages
+            return redirect('login');
+        }
     }
 
 }
