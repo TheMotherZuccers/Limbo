@@ -10,14 +10,9 @@
 | contains the "web" middleware group. Now create something great!
 |
 |
-| TRY TO NOT MOVE ITEMS FROM THE LINES THEY ARE ON, phpDocumentor EXAMPLE LINKS TO THOSE LINES
 */
 
-# Home page route
-//Route::get('/', function () {
-//    $items = \App\Http\Controllers\ItemController::get_items();
-//    return View('welcome', compact('items'));
-//});
+// Home page route
 Route::get('/', 'ItemController@paginate_five');
 
 // Page to update items (for admins and posters) and to view information on an item (everybody)
@@ -40,5 +35,6 @@ Route::get('admin', ['middleware' => 'admin', function () {
 
 // Report item page
 Route::get('report_item/{senario}','ItemController@add_item')->where('senario', '(lost)|(found)');
+
 // Report item post url
 Route::post('report_item', ['as' => 'form_url', 'uses' => 'ItemController@store']);
