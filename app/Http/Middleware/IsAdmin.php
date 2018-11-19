@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Support\Facades\Auth;
 
 class IsAdmin {
+
     /**
      * Handle an incoming request.
      *
@@ -18,6 +19,6 @@ class IsAdmin {
             return $next($request);
         }
 
-        return redirect('/');
+        return redirect('login');
     }
 }
