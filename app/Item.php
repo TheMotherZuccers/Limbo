@@ -35,4 +35,12 @@ class Item extends Model {
         return $this->belongsTo('App\User', 'finder_id');
     }
 
+    public function claimed() {
+
+    }
+
+    public function returned() {
+
+    }
+
 }
