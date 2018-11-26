@@ -35,12 +35,13 @@ class Item extends Model {
         return $this->belongsTo('App\User', 'finder_id');
     }
 
-    public function claimed() {
-
+    public function claims()
+    {
+        return $this->hasMany('App/ItemClaim');
     }
 
-    public function returned() {
-
+    public function claimed() {
+        return $this->claims()->count() > 0;
     }
 
 }
