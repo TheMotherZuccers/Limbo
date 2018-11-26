@@ -13,10 +13,12 @@ class CreateItemClaimTable extends Migration
      */
     public function up()
     {
-        Schema::create('itemclaims', function (Blueprint $table) {
+        Schema::create('item_claims', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
+            $table->unsignedInteger('item_id');
+            $table->foreign('item_id')->references('id')->on('items');
             $table->text('note')->nullable();
             $table->timestamps();
         });
@@ -29,6 +31,6 @@ class CreateItemClaimTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('itemclaims');
+        Schema::dropIfExists('item_claims');
     }
 }
