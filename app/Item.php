@@ -40,7 +40,7 @@ class Item extends Model {
         return $this->hasMany('App/ItemClaim');
     }
 
-    public function claimed() {
+    public function has_claims() {
         return $this->claims()->count() > 0;
     }
 
