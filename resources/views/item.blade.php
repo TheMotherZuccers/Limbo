@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card">
-                    <?php $authenticated = !Auth::guest() && ($item->finder_id == Auth::user()->id || Auth::user()->type == 'admin') ?>
+                    <?php $authenticated = ! Auth::guest() && ($item->finder_id == Auth::user()->id || Auth::user()->type == 'admin') ?>
                     @if ($authenticated)
                         <div class="card-header">Update an Item</div>
 
@@ -80,16 +80,27 @@
                 <div class="card">
                     <div class="card-header">Claim Item</div>
                     <div class="card-body">
-                    {{ Form::model($item, array('url' => 'claim_item', 'method' => 'POST')) }}
+                        <?php
+                            $user_claimed = False;
+                            foreach ($item->claims as $claim)
+                                if ($claim->user->id == Auth::user()->id)
+                                    $user_claimed = True;
+                        ?>
 
-                    {{ Form::hidden('item_id', $item->id) }}
+                        @if (!$user_claimed)
+                            {{ Form::model($item, array('url' => 'claim_item', 'method' => 'POST')) }}
 
-                    {{ Form::label('claim_note', 'Claim Note') }}
-                    {{ Form::text('claim_note') }}<br>
+                            {{ Form::hidden('item_id', $item->id) }}
 
-                    {{ Form::submit('Claim Item') }}
+                            {{ Form::label('claim_note', 'Claim Note') }}
+                            {{ Form::text('claim_note') }}<br>
 
-                    {{ Form::close() }}
+                            {{ Form::submit('Claim Item') }}
+
+                            {{ Form::close() }}
+                        @else
+                            {{ 'You have already claimed this item' }}
+                        @endif
                     </div>
                 </div>
 
