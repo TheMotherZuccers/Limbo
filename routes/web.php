@@ -44,3 +44,5 @@ Route::get('report_item/{senario}','ItemController@add_item')->where('senario', 
 
 // Report item post url
 Route::post('report_item', ['as' => 'form_url', 'uses' => 'ItemController@store']);
+
+Route::post('claim_item', ['as' => 'form_url', 'uses' => 'ItemClaimController@store']);

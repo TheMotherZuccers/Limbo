@@ -74,7 +74,25 @@
                             </tr>
                         </table>
                     @endif
+
                 </div>
+
+                <div class="card">
+                    <div class="card-header">Claim Item</div>
+                    <div class="card-body">
+                    {{ Form::model($item, array('url' => 'claim_item', 'method' => 'POST')) }}
+
+                    {{ Form::hidden('item_id', $item->id) }}
+
+                    {{ Form::label('claim_note', 'Claim Note') }}
+                    {{ Form::text('claim_note') }}<br>
+
+                    {{ Form::submit('Claim Item') }}
+
+                    {{ Form::close() }}
+                    </div>
+                </div>
+
             </div>
             <div class="col-md-6">
                 @if ($authenticated)
