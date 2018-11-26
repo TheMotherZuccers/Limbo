@@ -46,8 +46,23 @@
             </tr>
             </thead>
             <tbody id="item-table-body">
+                
             @foreach($items as $item)
-                <tr class='table-tr' data-url="/item/{{ $item->id }}">
+                
+                <?php
+                $status_color = 'mintcream';
+                if ($item->claims()->count() > 0){
+                    $status_color = 'goldenrod'; //if item is claimed or returned, the status color is yellow
+                } elseif ($item->hidden){
+                    $status_color = 'lightcoral'; //if item is no longer active, the status color is red
+                } elseif ($item->claimed){
+                    $status_color = 'darkseagreen'; //if item has been claimed and returned, the status color is green
+                } else {
+                    $status_color = 'mintcream';
+                }
+                ?>
+                
+                <tr class='table-tr' data-url="/item/{{ $item->id }}" style="background: {{ $status_color }}">
                     <td>{{ $item->description }}</td>
                     <td>{{ $item->created_at }}</td>
                     <td>{{ $item->updated_at }} </td>
