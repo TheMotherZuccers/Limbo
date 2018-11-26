@@ -37,11 +37,11 @@ class Item extends Model {
 
     public function claims()
     {
-        return $this->hasMany('App/ItemClaim');
+        return $this->hasMany('App\ItemClaim');
     }
 
     public function has_claims() {
-        return $this->claims()->count() > 0;
+        return $this;
     }
 
 }
