@@ -22,6 +22,12 @@ Route::get('/item/{id}', function ($id) {
 
 Route::put('update_item', ['as' => 'form_url', 'uses' => 'ItemController@update']);
 
+Route::put('update_user', ['as' => 'form_url', 'uses' => 'Auth\UserController@update']);
+
+Route::get('/user/{id}', ['middleware' => 'admin', function ($id) {
+    return \App\Http\Controllers\Auth\UserController::edit($id);
+}]);
+
 // Generates the nessesary routes for authentication
 Auth::routes();
 
