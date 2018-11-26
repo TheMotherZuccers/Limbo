@@ -25,6 +25,14 @@
         }
     </style>
 
+    {{-- TODO --}}
+    {{-- Item is red if it is no longer active --}}
+    {{-- Item is green if it has been claimed and returned --}}
+    {{-- Item is yellow if it has been claiemd --}}
+    {{-- Item is gray if no action has been taken --}}
+    {{-- Colors still rotate if they are next to each other --}}
+    {{-- Table scales on any screen size --}}
+
     <div>
         <h4>Click on any item edit it</h4>
         <table class="table table-striped clickable-table" id="item_table">
