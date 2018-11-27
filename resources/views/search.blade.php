@@ -8,6 +8,10 @@
                 window.location = $(this).data("url");
             });
         });
+
+        // $('#inputbox').keyup(function() {
+        // $(this).closest('form').submit();
+        // });
     </script>
 
     <div class="row">
@@ -22,6 +26,11 @@
                             value="{{ request('q') }}"
                     />
                 </div>
+                <script>
+                    $('.form-control').on('input', function() {
+                        $(this).closest('form').submit();
+                    });
+                </script>
             </form>
         </div>
     </div>

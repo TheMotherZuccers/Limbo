@@ -28,8 +28,9 @@ class ElasticsearchItemRepository implements ItemRepository
         $instance = new Item;
 
         # Defaults empty to search everything
-        if (empty($query))
+        if (empty($query)) {
             $query = '*';
+        }
 
         $items = $this->search->search([
             'index' => $instance->getSearchIndex(),
@@ -41,33 +42,41 @@ class ElasticsearchItemRepository implements ItemRepository
                 //        'query' => $query,
                 //    ],
                 //],
+                //'query' => [
+                //    'dis_max' => [
+                //        'queries' => [
+                //            [
+                //                'fuzzy' => [
+                //                    'description' => [
+                //                        'value' => $query,
+                //                        'fuzziness' => 2,
+                //                        'transpositions' => true,
+                //                        "max_expansions" => 100
+                //                    ],
+                //                ],
+                //            ],
+                //            [
+                //                'fuzzy' => [
+                //                    'position_comment' => [
+                //                        'value' => $query,
+                //                        'fuzziness' => 2,
+                //                        'transpositions' => true,
+                //                        "max_expansions" => 100
+                //                    ],
+                //                ],
+                //            ],
+                //        ],
+                //    ],
+                //],
                 'query' => [
-                    'dis_max' => [
-                        'queries' => [
-                            [
-                                'fuzzy' => [
-                                    'description' => [
-                                        'value' => $query,
-                                        'fuzziness' => 2,
-                                        'transpositions' => true,
-                                        "max_expansions" => 100
-                                    ],
-                                ],
-                            ],
-                            [
-                                'fuzzy' => [
-                                    'position_comment' => [
-                                        'value' => $query,
-                                        'fuzziness' => 2,
-                                        'transpositions' => true,
-                                        "max_expansions" => 100
-                                    ],
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-            ],
+                    'match_phrase_prefix' => [
+                        'description' => [
+                            'query' => $query,
+                            'slop' => 10,
+                        ]
+                    ]
+                ]
+            ]
         ]);
 
         return $items;
