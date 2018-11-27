@@ -27,56 +27,19 @@ class ElasticsearchItemRepository implements ItemRepository
     {
         $instance = new Item;
 
-        # Defaults empty to search everything
-        if (empty($query)) {
-            $query = '*';
-        }
-
         $items = $this->search->search([
             'index' => $instance->getSearchIndex(),
             'type' => $instance->getSearchType(),
             'body' => [
-                //'query' => [
-                //    'multi_match' => [
-                //        'fields' => ['description', 'position_comment'],
-                //        'query' => $query,
-                //    ],
-                //],
-                //'query' => [
-                //    'dis_max' => [
-                //        'queries' => [
-                //            [
-                //                'fuzzy' => [
-                //                    'description' => [
-                //                        'value' => $query,
-                //                        'fuzziness' => 2,
-                //                        'transpositions' => true,
-                //                        "max_expansions" => 100
-                //                    ],
-                //                ],
-                //            ],
-                //            [
-                //                'fuzzy' => [
-                //                    'position_comment' => [
-                //                        'value' => $query,
-                //                        'fuzziness' => 2,
-                //                        'transpositions' => true,
-                //                        "max_expansions" => 100
-                //                    ],
-                //                ],
-                //            ],
-                //        ],
-                //    ],
-                //],
-                'query' => [
+                'query' => (!empty($query) ? [
                     'match_phrase_prefix' => [
                         'description' => [
                             'query' => $query,
                             'slop' => 10,
-                        ]
-                    ]
-                ]
-            ]
+                        ],
+                    ],
+                ] : [ 'match_all' => [ 'boost' => 1], ]),
+            ],
         ]);
 
         return $items;
@@ -100,11 +63,9 @@ class ElasticsearchItemRepository implements ItemRepository
          */
         $hits = array_column($items['hits']['hits'], '_source');
 
-        Log::debug(json_encode($items));
-
         $sources = array_map(function ($source) {
-            return Item::find($source['_source']['id']);
-        }, $items['hits']['hits']);
+            return Item::find($source['id']);
+        }, $hits);
 
         // We have to convert the results array into Eloquent Models.
         return new Collection($sources);
