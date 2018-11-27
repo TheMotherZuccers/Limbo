@@ -27,14 +27,44 @@ class ElasticsearchItemRepository implements ItemRepository
     {
         $instance = new Item;
 
+        # Defaults empty to search everything
+        if (empty($query))
+            $query = '*';
+
         $items = $this->search->search([
             'index' => $instance->getSearchIndex(),
             'type' => $instance->getSearchType(),
             'body' => [
+                //'query' => [
+                //    'multi_match' => [
+                //        'fields' => ['description', 'position_comment'],
+                //        'query' => $query,
+                //    ],
+                //],
                 'query' => [
-                    'multi_match' => [
-                        'fields' => ['description', 'position_comment'],
-                        'query' => $query,
+                    'dis_max' => [
+                        'queries' => [
+                            [
+                                'fuzzy' => [
+                                    'description' => [
+                                        'value' => $query,
+                                        'fuzziness' => 2,
+                                        'transpositions' => true,
+                                        "max_expansions" => 100
+                                    ],
+                                ],
+                            ],
+                            [
+                                'fuzzy' => [
+                                    'position_comment' => [
+                                        'value' => $query,
+                                        'fuzziness' => 2,
+                                        'transpositions' => true,
+                                        "max_expansions" => 100
+                                    ],
+                                ],
+                            ],
+                        ],
                     ],
                 ],
             ],
