@@ -23,13 +23,13 @@
                             name="q"
                             class="form-control"
                             placeholder="Search..."
-                            value="{{ request('q') }}"
                     />
                 </div>
                 <script>
+                    {{-- Submits the form on input and on page loads sets value and focus --}}
                     $('.form-control').on('input', function() {
                         $(this).closest('form').submit();
-                    });
+                    }).focus().val("{{ request('q') }}");
                 </script>
             </form>
         </div>
