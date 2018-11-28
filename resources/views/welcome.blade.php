@@ -24,7 +24,8 @@
             <h1>{{ config('app.name') }}</h1>
             <h3>Lost and Found Done Right</h3>
             <div class="row justify-content-center" style="height: 70%">
-                <div class="col-5">
+                {{-- Height being 50% will only matter when the two columns stack --}}
+                <div class="col-md-5 col-sm-12" style="height: 50%">
                     <h4>Click on any item to see its location on the map</h4>
                     <table class="table table-striped" id="item_table">
                         <thead>
@@ -48,9 +49,8 @@
                         </caption>
                         </tbody>
                     </table>
-
                 </div>
-                <div class="col-5">
+                <div class="col-md-5 col-sm-12">
                     {{-- Starts as hidden so our magic JS can make it visible when it's loaded --}}
                     <div id="mapid" style="height: 100%; width: 100%; display: none;"></div>
                 </div>
