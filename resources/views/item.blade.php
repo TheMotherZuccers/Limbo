@@ -86,7 +86,7 @@
                     @endif
 
                 </div>
-                @if (Auth::user())
+                @if (!$item->claimed && Auth::user())
                     <div class="card">
                         <div class="card-header">Claim Item</div>
                         <div class="card-body">
@@ -123,7 +123,7 @@
                     <div id="mapids" style="height: 360px; width: 100%;"></div>
                 </div>
 
-                @if (!Auth::guest() && Auth::user()->type == 'admin')
+                @if (!$item->claimed && !Auth::guest() && Auth::user()->type == 'admin')
                     <div class="row">
                         <table class="table table-striped" id="item_table">
                             <thead>

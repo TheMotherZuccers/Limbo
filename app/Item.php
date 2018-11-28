@@ -39,6 +39,8 @@ class Item extends Model
         'position_found',
     ];
 
+    protected $appends = array('claimed');
+
     public function finder()
     {
         return $this->belongsTo('App\User', 'finder_id');
@@ -52,5 +54,10 @@ class Item extends Model
     public function has_claims()
     {
         return $this;
+    }
+
+    public function getClaimedAttribute()
+    {
+        return $this->claims()->where('claimed', '=', '1')->count() != 0;
     }
 }
