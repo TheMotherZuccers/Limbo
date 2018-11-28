@@ -29,12 +29,7 @@
         <div class="container">
             <form action="{{ url('search') }}" method="get">
                 <div class="form-group">
-                    <input
-                            type="text"
-                            name="q"
-                            class="form-control"
-                            placeholder="Search..."
-                    />
+                    <input type="text" name="q" class="form-control" placeholder="Search..." autocomplete="off" />
                 </div>
                 <script>
                     {{-- Submits the form on input and on page loads sets value and focus --}}
