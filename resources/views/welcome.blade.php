@@ -20,6 +20,22 @@
 
         var n = 4;
 
+        function addRowHandlers() {
+            var table = document.getElementById("item-table-body");
+            var rows = table.getElementsByTagName("tr");
+            for (i = 0; i < rows.length; i++) {
+                var currentRow = table.rows[i];
+                var createClickHandler = function (row) {
+                    return function () {
+                        var cell = row.getElementsByTagName("td")[0];
+                        var id = cell.innerText.trim();
+                        popupDict[id].openPopup();
+                    };
+                };
+                currentRow.onclick = createClickHandler(currentRow);
+            }
+        }
+
         function replace_table(_response) {
             // Remove current rows from the table and the table from formatting
             $.tableoverflow.removeTable($('#item_table'));
@@ -31,13 +47,29 @@
 
             $('#item_table').replaceWith(table);
 
+            $('#item-table-body tr td:first-child').each(function () {
+                $.ajax({
+                    url: '{{ config('app.url') }}/api/items/' + $(this).text(),
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (_response) {
+                        var item = _response;
+                        var marker = L.marker([item['position_found']['coordinates'][1], item['position_found']['coordinates'][0]]).addTo(mymap);
+                        marker.bindPopup("<b>" + item['description'] + "</b><br>Time Found: " + item['created_at'] + "<br><a href=\'/item/" + item['id'] + "\'>Item Information</a><br>");
+                        popupDict[item['id']] = marker;
+                    },
+                    error: function (_response) {
+                        console.log(_response);
+                    }
+                });
+            });
+
+            addRowHandlers();
+
             $(".pagination li a").each(function (index, value) {
                 value.setAttribute('href', value + '&n=' + n);
             }).click(function (event) {
-                console.log('hi');
                 event.preventDefault();
-
-                console.log($(this).attr('href'));
 
                 $.ajax({
                     url: $(this).attr('href'),
@@ -156,33 +188,6 @@
 
         // Dictionary for storing the popups to be used with table clicks
         var popupDict = {};
-
-                @foreach($items as $item)
-        var marker = L.marker([{{  $item->position_found->getLat() }}, {{ $item->position_found->getLng() }}]).addTo(mymap);
-        marker.bindPopup("<b>{{ $item->description }}</b><br>Time Found: {{ $item->created_at }}<br><a href=\'/item/{{ $item->id }}\'>Item Information</a><br>");
-        popupDict["{{ $item->id }}"] = marker;
-
-        @endforeach
-
-        function addRowHandlers() {
-            var table = document.getElementById("item-table-body");
-            var rows = table.getElementsByTagName("tr");
-            for (i = 0; i < rows.length; i++) {
-                var currentRow = table.rows[i];
-                var createClickHandler = function (row) {
-                    return function () {
-                        var cell = row.getElementsByTagName("td")[0];
-                        console.log(cell);
-                        var id = cell.innerText.trim();
-                        console.log(id);
-                        popupDict[id].openPopup();
-                    };
-                };
-                currentRow.onclick = createClickHandler(currentRow);
-            }
-        }
-
-        addRowHandlers();
 
     </script>
 @endsection
