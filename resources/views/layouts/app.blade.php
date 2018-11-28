@@ -108,14 +108,14 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a href="/report_item/found">I found an item</a><br>
-                                <a href="/report_item/lost">I lost an item</a>
+                                <a class="nav-link" href="/report_item/found">I found an item</a><br>
+                                <a class="nav-link" href="/report_item/lost">I lost an item</a>
                             </div>
                         </li>
 
                         @if (Auth::user()->type == 'admin')
                             <li class="nav-item">
-                                <a href="/admin">Admin Dashboard</a>
+                                <a class="nav-link" href="/admin">Admin Dashboard</a>
                             </li>
                         @endif
                     @endguest
