@@ -51,12 +51,12 @@
                 
                 <?php
                 $status_color = 'mintcream';
-                if ($item->claims()->count() > 0){
+                if ($item->claimed){
+                    $status_color = 'darkseagreen'; //if item has been claimed and returned, the status color is green
+                } elseif ($item->claims()->count() > 0){
                     $status_color = 'goldenrod'; //if item is claimed or returned, the status color is yellow
                 } elseif ($item->hidden){
                     $status_color = 'lightcoral'; //if item is no longer active, the status color is red
-                } elseif ($item->claimed){
-                    $status_color = 'darkseagreen'; //if item has been claimed and returned, the status color is green
                 } else {
                     $status_color = 'mintcream';
                 }
