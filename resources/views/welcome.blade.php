@@ -54,6 +54,8 @@
 
             // redo the table overflow fix with the new items
             $('table').tableoverflow();
+            // band aid
+            $(document).scrollTop(0);
         }
 
         // Runs when the document loads. Does initial responsiveness to page
@@ -114,18 +116,18 @@
                             <th scope="col">Time Entered</th>
                         </tr>
                         </thead>
-                        <tbody id="item-table-body">
-                        @foreach($items as $item)
-                            <tr>
-                                <td scope="row">{{$item->id}}</td>
-                                <td>{{ $item->description }}</td>
-                                <td>{{ $item->created_at }}</td>
-                            </tr>
-                        @endforeach
-                        <caption align="bottom">
-                            {{ $items->links() }}
-                        </caption>
-                        </tbody>
+                        {{--<tbody id="item-table-body">--}}
+                        {{--@foreach($items as $item)--}}
+                            {{--<tr>--}}
+                                {{--<td scope="row">{{$item->id}}</td>--}}
+                                {{--<td>{{ $item->description }}</td>--}}
+                                {{--<td>{{ $item->created_at }}</td>--}}
+                            {{--</tr>--}}
+                        {{--@endforeach--}}
+                        {{--<caption align="bottom">--}}
+                            {{--{{ $items->links() }}--}}
+                        {{--</caption>--}}
+                        {{--</tbody>--}}
                     </table>
                 </div>
                 <div class="col-md-5 col-sm-12">
