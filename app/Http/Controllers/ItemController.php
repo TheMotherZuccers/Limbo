@@ -36,6 +36,14 @@ class ItemController extends Controller
         return View('welcome', compact('items'));
     }
 
+    public static function responsive_pagination(Request $request)
+    {
+        $items = Item::where('hidden', false)->paginate($request['n']);
+        $n = $request['n'];
+
+        return View('responsive_pagination', compact('items', 'n'));
+    }
+
     /**
      * Gets the data of one item and passed it to the map blade for display
      *

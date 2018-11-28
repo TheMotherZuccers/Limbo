@@ -12,8 +12,6 @@
 |
 */
 
-// Home page route
-use App\Item;
 use App\Repositories\ItemRepository;
 
 Route::get('/', 'ItemController@paginate_five');
@@ -50,7 +48,7 @@ Route::post('report_item', ['as' => 'form_url', 'uses' => 'ItemController@store'
 
 Route::post('claim_item', ['as' => 'form_url', 'uses' => 'ItemClaimController@store']);
 
-Route::get('/search', function (ItemRepository $repository) {
+Route::get('search', function (ItemRepository $repository) {
     $items = $repository->search((string) request('q'));
 
     return view('search', [
@@ -59,3 +57,5 @@ Route::get('/search', function (ItemRepository $repository) {
 });
 
 Route::get('searchastype', 'ItemSearchController@search_as_type');
+
+Route::get('responsive_pagination', 'ItemController@responsive_pagination');

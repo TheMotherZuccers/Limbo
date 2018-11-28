@@ -21,8 +21,8 @@
 
     <div class="flex-center position-ref full-height content">
         <div class="laravel-style-bois">
-            <h1>{{ config('app.name') }}</h1>
-            <h3>Lost and Found Done Right</h3>
+            <h2>{{ config('app.name') }}</h2>
+            <h4>Lost and Found Done Right</h4>
             <div class="row justify-content-center" style="height: 70%">
                 {{-- Height being 50% will only matter when the two columns stack --}}
                 <div class="col-md-5 col-sm-12" style="height: 50%">
@@ -39,7 +39,6 @@
                         @foreach($items as $item)
                             <tr>
                                 <td scope="row">{{$item->id}}</td>
-                                {{-- TODO limit the character's based on the size of the text area --}}
                                 <td>{{ $item->description }}</td>
                                 <td>{{ $item->created_at }}</td>
                             </tr>
