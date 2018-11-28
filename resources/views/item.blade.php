@@ -120,7 +120,7 @@
                         accessToken: 'pk.eyJ1Ijoid2lsbGlhbWtsdWdlIiwiYSI6ImNqbW04eXB5dzBna2szcW83ajdlb2xpcmwifQ.RdkpVNHpUdMLV-2GJlTGTQ'
                     }).addTo(map);
 
-                    marker = new L.marker([41.72212, -73.93417], {draggable: 'true'});
+                    marker = new L.marker([{{  $item->position_found->getLat() }}, {{ $item->position_found->getLng() }}], {draggable: 'true'});
                     map.addLayer(marker);
                     document.getElementById("pos_x").value = marker.getLatLng().lat;
                     document.getElementById("pos_y").value = marker.getLatLng().lng;
