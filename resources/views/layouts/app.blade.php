@@ -82,7 +82,7 @@
 </head>
 <body>
 <div id="app">
-    <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
+    <nav class="navbar navbar-expand-lg navbar-light navbar-laravel">
         <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}">
                 {{ config('app.name', 'Limbo') }}
@@ -122,7 +122,7 @@
                 </ul>
 
                 <!-- Right Side Of Navbar -->
-                <ul class="navbar-nav ml-auto">
+                <ul class="navbar-nav navbar-right">
                     <li class="nav-item">
                         <form class="form-inline" action="{{ url('search') }}" method="get" autocomplete="off">
                             <div class="form-group">
