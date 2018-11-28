@@ -54,7 +54,7 @@
                     dataType: 'json',
                     success: function (_response) {
                         var item = _response;
-                        var marker = L.marker([item['position_found']['coordinates'][1], item['position_found']['coordinates'][0]]).addTo(mymap);
+                        var marker = L.marker([item['position_found']['coordinates'][1], item['position_found']['coordinates'][0]]).addTo(layerGroup);
                         marker.bindPopup("<b>" + item['description'] + "</b><br>Time Found: " + item['created_at'] + "<br><a href=\'/item/" + item['id'] + "\'>Item Information</a><br>");
                         popupDict[item['id']] = marker;
                     },
@@ -76,6 +76,7 @@
                     type: 'GET',
                     dataType: 'html',
                     success: function (_response) {
+                        layerGroup.clearLayers();
                         replace_table(_response);
                     },
                     error: function (_response) {
@@ -185,6 +186,8 @@
             id: 'mapbox.streets',
             accessToken: 'pk.eyJ1Ijoid2lsbGlhbWtsdWdlIiwiYSI6ImNqbW04eXB5dzBna2szcW83ajdlb2xpcmwifQ.RdkpVNHpUdMLV-2GJlTGTQ'
         }).addTo(mymap);
+
+        var layerGroup = L.layerGroup().addTo(mymap);
 
         // Dictionary for storing the popups to be used with table clicks
         var popupDict = {};
