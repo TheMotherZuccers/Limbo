@@ -29,12 +29,16 @@
         <div class="container">
             <form action="{{ url('search') }}" method="get">
                 <div class="form-group">
-                    <input type="text" name="q" class="form-control" placeholder="Search..." autocomplete="off" />
+                    <input type="text" name="q" class="form-control" placeholder="Search..." autocomplete="off" id="input_box" />
                 </div>
                 <script>
                     {{-- Submits the form on input and on page loads sets value and focus --}}
                     $('.form-control').on('input', function() {
-                        $(this).closest('form').submit();
+                        var input_val = document.getElementById('input_box').value;
+                        console.log('input value ' + input_val);
+                        if (!/\s+$/.test(input_val)) {
+                            $(this).closest('form').submit();
+                        }
                     }).focus().val("{{ request('q') }}");
                 </script>
             </form>
