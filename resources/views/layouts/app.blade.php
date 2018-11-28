@@ -124,19 +124,16 @@
                 <!-- Right Side Of Navbar -->
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <form action="{{ url('search') }}" method="get">
+                        <form class="form-inline" action="{{ url('search') }}" method="get" autocomplete="off">
                             <div class="form-group">
                                 <input
                                         type="text"
                                         name="q"
-                                        class="form-control"
+                                        class="form-control mr-sm-2"
                                         placeholder="Search..."
                                 />
+                                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                             </div>
-                            <script>
-                                {{-- Submits the form on input and on page loads sets value and focus --}}
-                                $('.form-control').focus();
-                            </script>
                         </form>
                     </li>
 
