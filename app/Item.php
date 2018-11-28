@@ -58,6 +58,6 @@ class Item extends Model
 
     public function getClaimedAttribute()
     {
-        return $this->claims()->where('claimed', '=', '1')->count() != 0;
+        return $this->claims()->count() > 0 ? $this->claims()->where('claimed', '=', '1')->count() != 0 : 0;
     }
 }

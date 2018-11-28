@@ -2,9 +2,10 @@
 
 namespace App\Providers;
 
-use App\Repositories\EloquentItemRepository;
+use App\Item;
 use App\Repositories\ItemRepository;
 use App\Repositories\ElasticsearchItemRepository;
+use App\Search\LaravelElasticsearchItemObserver;
 use Elasticsearch\Client;
 use Elasticsearch\ClientBuilder;
 use Illuminate\Support\ServiceProvider;
@@ -20,6 +21,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
+        Item::observe(LaravelElasticsearchItemObserver::class);
     }
 
     /**
