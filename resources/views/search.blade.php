@@ -34,7 +34,7 @@
                 </div>
                 <script>
                     // jQuery, bind an event handler or use some other way to trigger ajax call.
-                    $('form').submit(function (event) {
+                    $('#input-form').submit(function (event) {
                         event.preventDefault();
                         $.ajax({
                             url: '{{ config('app.url', 'limbo.loc') }}/searchastype',
@@ -47,17 +47,20 @@
                             success: function (_response) {
                                 // convert string to JSON
                                 $(function () {
-                                    $("#item_table tr").remove();
+                                    // Remove current rows from the table and the table from formatting
+                                    $("#item-table-body tr").remove();
+                                    $.tableoverflow.removeTable($('#item_table'));
 
                                     $.each(_response, function (i, item) {
-                                        $('<tr class="table-tr">').append(
+                                        $('<tr class="table-tr" data-url="/item/' + item.id + '">').append(
                                             $('<td>').text(item.description),
                                             $('<td>').text(item.created_at),
                                             $('<td>').text(item.updated_at),
                                             $('<td>').text(item.position_comment)
                                         ).appendTo('#item_table');
-                                        // console.log($tr.wrap('<p>').html());
                                     });
+                                    // redo the table overflow fix with the new items
+                                    $('table').tableoverflow();
                                 });
                             },
                             error: function (_response) {
@@ -67,7 +70,7 @@
                     });
 
                     {{-- Submits the form on input and on page loads sets value and focus --}}
-                    $('.form-control').on('input', function () {
+                    $('#input_box').on('input', function () {
                         var input_val = document.getElementById('input_box').value;
                         if (!/\s+$/.test(input_val)) {
                             $(this).closest('form').submit();
@@ -80,8 +83,8 @@
     <div class="container justify-content-center" style="height: 70%">
         <div class="panel panel-primary">
             <div class="panel-heading">
-                Click on any item view it -
-                <small>({{ $items->count() }} items)</small>
+                Click on any item view it
+                {{--<small>({{ $items->count() }} items)</small>--}}
             </div>
             <div class="panel-body">
                 <table class="table table-striped clickable-table" id="item_table">
