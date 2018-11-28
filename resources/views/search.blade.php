@@ -2,17 +2,28 @@
 
 @section('content')
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="js/jquery-tableoverflow.js"></script>
     <script type="text/javascript">
+        $(function () {
+            $('table').tableoverflow();
+        });
+
         $(function () {
             $('table.clickable-table').on("click", "tr.table-tr", function () {
                 window.location = $(this).data("url");
             });
         });
-
-        // $('#inputbox').keyup(function() {
-        // $(this).closest('form').submit();
-        // });
     </script>
+
+    <style>
+        #item-table-body tr:hover {
+            background-color: #ccc;
+        }
+
+        #item-table-body td:hover {
+            cursor: pointer;
+        }
+    </style>
 
     <div class="row">
         <div class="container">
@@ -34,7 +45,7 @@
             </form>
         </div>
     </div>
-    <div class="container row">
+    <div class="container justify-content-center" style="height: 70%">
         <div class="panel panel-primary">
             <div class="panel-heading">
                 Click on any item view it -
