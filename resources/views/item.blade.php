@@ -76,34 +76,34 @@
                     @endif
 
                 </div>
-
-                <div class="card">
-                    <div class="card-header">Claim Item</div>
-                    <div class="card-body">
-                        <?php
+                @if (Auth::user())
+                    <div class="card">
+                        <div class="card-header">Claim Item</div>
+                        <div class="card-body">
+                            <?php
                             $user_claimed = False;
-                            foreach ($item->claims as $claim)
-                                if ($claim->user->id == Auth::user()->id)
-                                    $user_claimed = True;
-                        ?>
+                            foreach ($item->claims as $claim) {
+                                $user_claimed = $claim->user->id == Auth::user()->id;
+                            }
+                            ?>
 
-                        @if (!$user_claimed)
-                            {{ Form::model($item, array('url' => 'claim_item', 'method' => 'POST')) }}
+                            @if (!$user_claimed)
+                                {{ Form::model($item, array('url' => 'claim_item', 'method' => 'POST')) }}
 
-                            {{ Form::hidden('item_id', $item->id) }}
+                                {{ Form::hidden('item_id', $item->id) }}
 
-                            {{ Form::label('claim_note', 'Claim Note') }}
-                            {{ Form::text('claim_note') }}<br>
+                                {{ Form::label('claim_note', 'Claim Note') }}
+                                {{ Form::text('claim_note') }}<br>
 
-                            {{ Form::submit('Claim Item') }}
+                                {{ Form::submit('Claim Item') }}
 
-                            {{ Form::close() }}
-                        @else
-                            {{ 'You have already claimed this item' }}
-                        @endif
+                                {{ Form::close() }}
+                            @else
+                                {{ 'You have already claimed this item' }}
+                            @endif
+                        </div>
                     </div>
-                </div>
-
+                @endif
             </div>
             <div class="col-md-6">
                 @if ($authenticated)
