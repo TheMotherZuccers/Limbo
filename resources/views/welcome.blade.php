@@ -17,6 +17,85 @@
         $(function () {
             $('table').tableoverflow();
         });
+
+        var n = 4;
+
+        function replace_table(_response) {
+            // Remove current rows from the table and the table from formatting
+            $.tableoverflow.removeTable($('#item_table'));
+
+            var parser = new DOMParser();
+            var doc = parser.parseFromString(_response, 'text/html');
+
+            var table = doc.getElementById('item_table');
+
+            $('#item_table').replaceWith(table);
+
+            $(".pagination li a").each(function (index, value) {
+                value.setAttribute('href', value + '&n=' + n);
+            }).click(function (event) {
+                console.log('hi');
+                event.preventDefault();
+
+                console.log($(this).attr('href'));
+
+                $.ajax({
+                    url: $(this).attr('href'),
+                    type: 'GET',
+                    dataType: 'html',
+                    success: function (_response) {
+                        replace_table(_response);
+                    },
+                    error: function (_response) {
+                        console.log(_response);
+                    }
+                });
+            });
+
+            // redo the table overflow fix with the new items
+            $('table').tableoverflow();
+        }
+
+        // Runs when the document loads. Does initial responsiveness to page
+        $(document).ready(function () {
+            $.ajax({
+                url: '{{ config('app.url', 'limbo.loc') }}/responsive_pagination',
+                type: 'GET',
+                data: {
+                    'n': n
+                },
+                dataType: 'html',
+                success: function (_response) {
+                    replace_table(_response);
+                },
+                error: function (_response) {
+                    console.log(_response);
+                }
+            });
+        });
+
+        // $('.pagination li a').click(function (event) {
+        //     console.log('hi');
+        //     event.preventDefault();
+        //
+        //     console.log($(this).attr('href'));
+        //
+        //     $.ajax({
+        //         url: $(this).attr('href'),
+        //         type: 'GET',
+        //         dataType: 'html',
+        //         success: function (_response) {
+        //             replace_table(_response);
+        //         },
+        //         error: function (_response) {
+        //             console.log(_response);
+        //         }
+        //     });
+        // }
+
+        // )
+        // ;
+
     </script>
 
     <div class="flex-center position-ref full-height content">

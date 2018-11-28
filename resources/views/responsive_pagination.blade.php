@@ -22,12 +22,6 @@
                 <caption align="bottom">
                     {{ $items->links() }}
                 </caption>
-                <script>
-                    {{-- Adds the number parameter to the links --}}
-                    $(".pagination li a").each(function (index, value){
-                        value.setAttribute('href', value + '&n={{ $n  }}');
-                    });
-                </script>
                 </tbody>
             </table>
         </div>
