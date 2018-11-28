@@ -57,3 +57,5 @@ Route::get('/search', function (ItemRepository $repository) {
         'items' => $items,
     ]);
 });
+
+Route::get('searchastype', 'ItemSearchController@search_as_type');

@@ -23,6 +23,20 @@ class ElasticsearchItemRepository implements ItemRepository
         return $this->buildCollection($items);
     }
 
+    public function json_search(string $query)
+    {
+        $items = $this->searchOnElasticsearch($query);
+
+        $hits = array_column($items['hits']['hits'], '_source');
+
+        $sources = array_map(function ($source) {
+            return Item::find($source['id']);
+        }, $hits);
+
+
+        return $sources;
+    }
+
     private function searchOnElasticsearch(string $query): array
     {
         $instance = new Item;
@@ -31,14 +45,14 @@ class ElasticsearchItemRepository implements ItemRepository
             'index' => $instance->getSearchIndex(),
             'type' => $instance->getSearchType(),
             'body' => [
-                'query' => (!empty($query) ? [
+                'query' => (! empty($query) ? [
                     'match_phrase_prefix' => [
                         'description' => [
                             'query' => $query,
                             'slop' => 10,
                         ],
                     ],
-                ] : [ 'match_all' => [ 'boost' => 1], ]),
+                ] : ['match_all' => ['boost' => 1],]),
             ],
         ]);
 

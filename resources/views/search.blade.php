@@ -29,32 +29,50 @@
         <div class="container">
             <form action="{{ url('search') }}" method="get" id="input-form">
                 <div class="form-group">
-                    <input type="text" name="q" class="form-control" placeholder="Search..." autocomplete="off" id="input_box" />
+                    <input type="text" name="q" class="form-control" placeholder="Search..." autocomplete="off"
+                           id="input_box"/>
                 </div>
                 <script>
-                    //setup before functions
-                    var typingTimer;                //timer identifier
-                    var doneTypingInterval = 100;
+                    // jQuery, bind an event handler or use some other way to trigger ajax call.
+                    $('form').submit(function (event) {
+                        event.preventDefault();
+                        $.ajax({
+                            url: '{{ config('app.url', 'limbo.loc') }}/searchastype',
+                            type: 'GET',
+                            data: {
+                                'q': $('#input_box').val()
+                            },
+                            // Remember that you need to have your csrf token included
+                            dataType: 'json',
+                            success: function (_response) {
+                                // convert string to JSON
+                                $(function () {
+                                    $("#item_table tr").remove();
 
-                    //on keyup, start the countdown
-                    $('#input_box').keyup(function(){
-                        clearTimeout(typingTimer);
-                        if ($('#input_box').val()) {
-                            typingTimer = setTimeout(doneTyping, doneTypingInterval);
-                        }
+                                    $.each(_response, function (i, item) {
+                                        $('<tr class="table-tr">').append(
+                                            $('<td>').text(item.description),
+                                            $('<td>').text(item.created_at),
+                                            $('<td>').text(item.updated_at),
+                                            $('<td>').text(item.position_comment)
+                                        ).appendTo('#item_table');
+                                        // console.log($tr.wrap('<p>').html());
+                                    });
+                                });
+                            },
+                            error: function (_response) {
+                                console.log(_response);
+                            }
+                        });
                     });
 
-                    //user is "finished typing," do something
-                    function doneTyping () {
-                        var input_val = document.getElementById('input_box').value;
-                        console.log('input value ' + input_val);
-                        if (!/\s+$/.test(input_val)) {
-                            $('form#input-form').submit();
-                        }
-                    }
-
                     {{-- Submits the form on input and on page loads sets value and focus --}}
-                    $('.form-control').focus().val("{{ request('q') }}");
+                    $('.form-control').on('input', function () {
+                        var input_val = document.getElementById('input_box').value;
+                        if (!/\s+$/.test(input_val)) {
+                            $(this).closest('form').submit();
+                        }
+                    }).focus().val("{{ request('q') }}");
                 </script>
             </form>
         </div>
@@ -93,5 +111,5 @@
                 </table>
             </div>
         </div>
-
+    </div>
 @endsection

@@ -3,35 +3,37 @@
 namespace App\Http\Controllers;
 
 use App\Item;
+use App\Repositories\ElasticsearchItemRepository;
 use App\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Grimzy\LaravelMysqlSpatial\Types\Point;
 use Illuminate\Http\Request;
 
-class ItemController extends Controller {
-
+class ItemController extends Controller
+{
     /**
      * Returns the view to add items to the database
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public static function add_item($test) {
+    public static function add_item($test)
+    {
         $senario = $test;
+
         return View('item_report', compact('senario'));
     }
 
-    public static function get_items() {
+    public static function get_items()
+    {
         return Item::where('hidden', false)->get();
     }
 
-    public static function paginate_five() {
+    public static function paginate_five()
+    {
         $items = Item::where('hidden', false)->paginate(5);
+
         return View('welcome', compact('items'));
-    }
-
-    public static function get_detailed_items() {
-
     }
 
     /**
@@ -40,8 +42,10 @@ class ItemController extends Controller {
      * @param $id Integer ID of the item to get data for
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public static function get_item_data($id) {
+    public static function get_item_data($id)
+    {
         $item = Item::find($id);
+
         return View('item', compact('item'));
     }
 
@@ -51,7 +55,8 @@ class ItemController extends Controller {
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
 
         $item = new Item;
 
@@ -59,7 +64,7 @@ class ItemController extends Controller {
         $item->notable_damage = $request->notable_damage;
         $item->environment_found = $request->environment_found;
         $item->position_found = new Point($request->pos_x, $request->pos_y);
-        $item->position_radius =  $request->position_radius;
+        $item->position_radius = $request->position_radius;
 //        TODO Set position comment correctly if instead of selecting a predefined location, the admin clicks a building
         $item->position_comment = $request->position_comment;
         $item->finder_id = User::all()->where('email', $request->finder_email)->first()->id;
@@ -108,27 +113,26 @@ class ItemController extends Controller {
 //                ->withErrors($validator)
 //                ->withInput(Input::except('password'));
 //        } else {
-            // store
-            $item = Item::find($request->id);
-            $item->description = $request->description;
-            $item->notable_damage = $request->notable_damage;
-            $item->environment_found = $request->environment_found;
-            $item->position_found = new Point($request->pos_x, $request->pos_y);
-            $item->position_radius =  $request->position_radius;
-            $item->position_comment = $request->position_comment;
+        // store
+        $item = Item::find($request->id);
+        $item->description = $request->description;
+        $item->notable_damage = $request->notable_damage;
+        $item->environment_found = $request->environment_found;
+        $item->position_found = new Point($request->pos_x, $request->pos_y);
+        $item->position_radius = $request->position_radius;
+        $item->position_comment = $request->position_comment;
 
-            // Special case to allow admins to hide items. Will still be kept in the DB but won't be shown
-            if (Auth::user()->type == 'admin') {
-                if ($request->hidden == null){
-                    $item->hidden = 0;
-                } else{
-                    $item->hidden = $request->hidden;
-                }
+        // Special case to allow admins to hide items. Will still be kept in the DB but won't be shown
+        if (Auth::user()->type == 'admin') {
+            if ($request->hidden == null) {
+                $item->hidden = 0;
+            } else {
+                $item->hidden = $request->hidden;
             }
+        }
 
-            $item->save();
+        $item->save();
 
-        return redirect('/item/' . $request->id);
+        return redirect('/item/'.$request->id);
     }
-
 }
