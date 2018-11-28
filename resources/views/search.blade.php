@@ -27,19 +27,34 @@
 
     <div class="row">
         <div class="container">
-            <form action="{{ url('search') }}" method="get">
+            <form action="{{ url('search') }}" method="get" id="input-form">
                 <div class="form-group">
                     <input type="text" name="q" class="form-control" placeholder="Search..." autocomplete="off" id="input_box" />
                 </div>
                 <script>
-                    {{-- Submits the form on input and on page loads sets value and focus --}}
-                    $('.form-control').on('input', function() {
+                    //setup before functions
+                    var typingTimer;                //timer identifier
+                    var doneTypingInterval = 100;
+
+                    //on keyup, start the countdown
+                    $('#input_box').keyup(function(){
+                        clearTimeout(typingTimer);
+                        if ($('#input_box').val()) {
+                            typingTimer = setTimeout(doneTyping, doneTypingInterval);
+                        }
+                    });
+
+                    //user is "finished typing," do something
+                    function doneTyping () {
                         var input_val = document.getElementById('input_box').value;
                         console.log('input value ' + input_val);
                         if (!/\s+$/.test(input_val)) {
-                            $(this).closest('form').submit();
+                            $('form#input-form').submit();
                         }
-                    }).focus().val("{{ request('q') }}");
+                    }
+
+                    {{-- Submits the form on input and on page loads sets value and focus --}}
+                    $('.form-control').focus().val("{{ request('q') }}");
                 </script>
             </form>
         </div>
