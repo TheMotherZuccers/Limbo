@@ -39,9 +39,8 @@ class ItemController extends Controller
     public static function responsive_pagination(Request $request)
     {
         $items = Item::where('hidden', false)->paginate($request['n']);
-        $n = $request['n'];
 
-        return View('responsive_pagination', compact('items', 'n'));
+        return response()->json($items);
     }
 
     /**

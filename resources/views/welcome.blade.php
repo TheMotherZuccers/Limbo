@@ -20,36 +20,64 @@
 
         var n = 4;
 
+        function addRowHandlers() {
+            var table = document.getElementById("item-table-body");
+            var rows = table.getElementsByTagName("tr");
+            for (i = 0; i < rows.length; i++) {
+                var currentRow = table.rows[i];
+                var createClickHandler = function (row) {
+                    return function () {
+                        var cell = row.getElementsByTagName("td")[0];
+                        console.log(cell);
+                        var id = cell.innerText.trim();
+                        console.log(id);
+                        popupDict[id].openPopup();
+                    };
+                };
+                currentRow.onclick = createClickHandler(currentRow);
+            }
+        }
+
         function replace_table(_response) {
             // Remove current rows from the table and the table from formatting
             $.tableoverflow.removeTable($('#item_table'));
 
-            var parser = new DOMParser();
-            var doc = parser.parseFromString(_response, 'text/html');
-
-            var table = doc.getElementById('item_table');
-
-            $('#item_table').replaceWith(table);
-
             $(".pagination li a").each(function (index, value) {
                 value.setAttribute('href', value + '&n=' + n);
             }).click(function (event) {
-                console.log('hi');
                 event.preventDefault();
-
-                console.log($(this).attr('href'));
-
+                
                 $.ajax({
                     url: $(this).attr('href'),
                     type: 'GET',
-                    dataType: 'html',
+                    dataType: 'json',
                     success: function (_response) {
-                        replace_table(_response);
+                        // convert string to JSON
+                        $(function () {
+                            // Remove current rows from the table and the table from formatting
+                            $("#item-table-body tr").remove();
+                            $.tableoverflow.removeTable($('#item_table'));
+
+                            $.each(_response, function (i, item) {
+                                $('<tr class="table-tr" data-url="/item/' + item.id + '">').append(
+                                    $('<td>').text(item.description),
+                                    $('<td>').text(item.created_at),
+                                    $('<td>').text(item.updated_at),
+                                    $('<td>').text(item.position_comment)
+                                ).appendTo('#item-table-body');
+                            });
+
+                            $('#item_table').replaceWith(_response.links());
+
+                            // redo the table overflow fix with the new items
+                            $('table').tableoverflow();
+                        });
                     },
                     error: function (_response) {
                         console.log(_response);
                     }
                 });
+
             });
 
             // redo the table overflow fix with the new items
@@ -69,6 +97,7 @@
                 dataType: 'html',
                 success: function (_response) {
                     replace_table(_response);
+                    // addRowHandlers();
                 },
                 error: function (_response) {
                     console.log(_response);
@@ -116,18 +145,18 @@
                             <th scope="col">Time Entered</th>
                         </tr>
                         </thead>
-                        {{--<tbody id="item-table-body">--}}
-                        {{--@foreach($items as $item)--}}
-                            {{--<tr>--}}
-                                {{--<td scope="row">{{$item->id}}</td>--}}
-                                {{--<td>{{ $item->description }}</td>--}}
-                                {{--<td>{{ $item->created_at }}</td>--}}
-                            {{--</tr>--}}
-                        {{--@endforeach--}}
-                        {{--<caption align="bottom">--}}
-                            {{--{{ $items->links() }}--}}
-                        {{--</caption>--}}
-                        {{--</tbody>--}}
+                        <tbody id="item-table-body">
+                        @foreach($items as $item)
+                            <tr>
+                                <td scope="row">{{$item->id}}</td>
+                                <td>{{ $item->description }}</td>
+                                <td>{{ $item->created_at }}</td>
+                            </tr>
+                        @endforeach
+                        <caption align="bottom">
+                            {{ $items->links() }}
+                        </caption>
+                        </tbody>
                     </table>
                 </div>
                 <div class="col-md-5 col-sm-12">
@@ -156,33 +185,5 @@
 
         // Dictionary for storing the popups to be used with table clicks
         var popupDict = {};
-
-                @foreach($items as $item)
-        var marker = L.marker([{{  $item->position_found->getLat() }}, {{ $item->position_found->getLng() }}]).addTo(mymap);
-        marker.bindPopup("<b>{{ $item->description }}</b><br>Time Found: {{ $item->created_at }}<br><a href=\'/item/{{ $item->id }}\'>Item Information</a><br>");
-        popupDict["{{ $item->id }}"] = marker;
-
-        @endforeach
-
-        function addRowHandlers() {
-            var table = document.getElementById("item-table-body");
-            var rows = table.getElementsByTagName("tr");
-            for (i = 0; i < rows.length; i++) {
-                var currentRow = table.rows[i];
-                var createClickHandler = function (row) {
-                    return function () {
-                        var cell = row.getElementsByTagName("td")[0];
-                        console.log(cell);
-                        var id = cell.innerText.trim();
-                        console.log(id);
-                        popupDict[id].openPopup();
-                    };
-                };
-                currentRow.onclick = createClickHandler(currentRow);
-            }
-        }
-
-        addRowHandlers();
-
     </script>
 @endsection
