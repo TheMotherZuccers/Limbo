@@ -44,8 +44,7 @@
                             {{ Form::label('finder_email', 'Finder\'s Email') }}
                             {{ Form::text('finder_email') }}<br>
                         @else
-                            {{ Form::label('finder_email', 'Your Email') }}
-                            {{ Form::text('finder_email') }}<br>
+                            {{ Form::hidden('finder_email', Auth::user()->email) }}
                         @endif
 
                         {{ Form::hidden('lost', $senario == 'lost' ? 1 : 0) }}
