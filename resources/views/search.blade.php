@@ -51,13 +51,13 @@
                                     $("#item-table-body tr").remove();
                                     $.tableoverflow.removeTable($('#item_table'));
 
-                                    $.each(_response['data'], function (i, item) {
+                                    $.each(_response, function (i, item) {
                                         $('<tr class="table-tr" data-url="/item/' + item.id + '">').append(
                                             $('<td>').text(item.description),
                                             $('<td>').text(item.created_at),
                                             $('<td>').text(item.updated_at),
                                             $('<td>').text(item.position_comment)
-                                        ).appendTo('#item-table-body');
+                                        ).appendTo('#item_table');
                                     });
                                     // redo the table overflow fix with the new items
                                     $('table').tableoverflow();
