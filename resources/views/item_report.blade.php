@@ -4,13 +4,22 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6">
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <div class="card">
                     <div class="card-header">Add an Item</div>
 
                     <div class="card-body">
                         {{ Form::open(array('url' => 'report_item')) }}
 
-                        {{ Form::label('description', 'Description') }}
+                        {{ Form::label('description', 'Description'),'',array('required' => 'required') }} <span style="color: red; display:block; float: left;">*</span>
                         {{ Form::text('description') }}<br>
 
                         {{ Form::label('notable_damage', 'Notable Damage') }}
@@ -40,16 +49,13 @@
                         {{ Form::label('position_comment', 'Position Comment') }}
                         {{ Form::text('position_comment') }}<br>
 
-                        @if ($senario == 'found')
-                            {{ Form::label('finder_email', 'Finder\'s Email') }}
-                            {{ Form::text('finder_email') }}<br>
-                        @else
-                            {{ Form::hidden('finder_email', Auth::user()->email) }}
-                        @endif
+                        {{ Form::hidden('finder_email', Auth::user()->email) }}
 
                         {{ Form::hidden('lost', $senario == 'lost' ? 1 : 0) }}
-                        
-                        {{ Form::submit('Add Item') }}
+
+                        <span style="color: red; display:block; float: left;">*Required</span><br>
+
+                        {{ Form::submit('Report Item') }}
 
                         {{ Form::close() }}
                     </div>

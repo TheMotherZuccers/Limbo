@@ -31,14 +31,14 @@ class ItemController extends Controller
 
     public static function paginate_five()
     {
-        $items = Item::where('hidden', false)->paginate(5);
+        $items = Item::where('hidden', false)->orderBy('updated_at', 'desc')->paginate(5);
 
         return View('welcome', compact('items'));
     }
 
     public static function responsive_pagination(Request $request)
     {
-        $items = Item::where('hidden', false)->paginate($request['n']);
+        $items = Item::where('hidden', false)->orderBy('updated_at', 'desc')->paginate($request['n']);
         $n = $request['n'];
 
         return View('responsive_pagination', compact('items', 'n'));
@@ -66,6 +66,10 @@ class ItemController extends Controller
     public function store(Request $request)
     {
 
+        $validatedData = $request->validate([
+            'description' => 'required',
+        ]);
+
         $item = new Item;
 
         $item->description = $request->description;
@@ -73,7 +77,6 @@ class ItemController extends Controller
         $item->environment_found = $request->environment_found;
         $item->position_found = new Point($request->pos_x, $request->pos_y);
         $item->position_radius = $request->position_radius;
-//        TODO Set position comment correctly if instead of selecting a predefined location, the admin clicks a building
         $item->position_comment = $request->position_comment;
         $item->finder_id = User::all()->where('email', $request->finder_email)->first()->id;
         $item->admin_id = Auth::id();

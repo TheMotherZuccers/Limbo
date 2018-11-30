@@ -176,7 +176,6 @@
                                             reset_row_colors();
                                             row.style.backgroundColor = '#ccc';
                                             var cell = row.getElementsByTagName("td")[0];
-                                            console.log(document.claim.elements['claim_id'].value);
                                             document.claim.elements['claim_id'].value = cell.innerText.trim();
                                         };
                                     };
