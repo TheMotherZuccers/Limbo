@@ -44,7 +44,7 @@
                         @endif
                         
                         {{ Form::label('position_radius', 'Position Radius') }}
-                        {{ Form::number('position_radius', null) }}<br>
+                        {{ Form::number('position_radius') }}<br>
 
                         {{ Form::label('position_comment', 'Position Comment') }}
                         {{ Form::text('position_comment') }}<br>

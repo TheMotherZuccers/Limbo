@@ -84,8 +84,8 @@ class ItemController extends Controller
         // Validates the data and redirects the user if they entered data incorrectly
         $request->validate([
             'description' => 'required',
-            'position_found' => 'required|numeric',
-            'position_radius' => 'sometimes|numeric',
+            'pos_x' => 'required|numeric',
+            'pos_y' => 'required|numeric',
             'finder_email' => 'sometimes|email',
             'hidden' => 'sometimes|boolean',
         ]);
