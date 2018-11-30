@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Item;
-use App\Repositories\ElasticsearchItemRepository;
 use App\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Grimzy\LaravelMysqlSpatial\Types\Point;
 use Illuminate\Http\Request;
+use Validator;
 
 class ItemController extends Controller
 {
@@ -36,8 +36,24 @@ class ItemController extends Controller
         return View('welcome', compact('items'));
     }
 
+    /**
+     * Paginates items responsively based on the number of items requested
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public static function responsive_pagination(Request $request)
     {
+        // Validates the data and redirects the user if they entered data incorrectly
+        $validator = Validator::make($request->all(), [
+            'n' => 'required|numeric',
+        ]);
+        if ($validator->fails()) {
+            return redirect('/')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
         $items = Item::where('hidden', false)->orderBy('updated_at', 'desc')->paginate($request['n']);
         $n = $request['n'];
 
@@ -65,9 +81,13 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-
-        $validatedData = $request->validate([
+        // Validates the data and redirects the user if they entered data incorrectly
+        $request->validate([
             'description' => 'required',
+            'position_found' => 'required|numeric',
+            'position_radius' => 'sometimes|numeric',
+            'finder_email' => 'sometimes|email',
+            'hidden' => 'sometimes|boolean',
         ]);
 
         $item = new Item;
@@ -82,7 +102,7 @@ class ItemController extends Controller
         $item->admin_id = Auth::id();
         $item->hidden = 0;
         $item->lost = $request->lost;
-
+        // Adds the item to the DB and to elasticsearch (if elasticsearch is enabled)
         $item->save();
 
         return redirect('/');
@@ -91,8 +111,8 @@ class ItemController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
-     * @return
+     * @param  int $id ID of the item to be edited
+     * @return View of the item to edit with filled data
      */
     public function edit($id)
     {
@@ -104,26 +124,19 @@ class ItemController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  int $id
-     * @return
+     * @param \Illuminate\Http\Request $request Request to this function
+     * @return \Redirect to page of the updated item
      */
     public function update(Request $request)
     {
-        // validate
-        // read more on validation at http://laravel.com/docs/validation
-//        $rules = array(
-//            'name'       => 'required',
-//            'email'      => 'required|email',
-//            'nerd_level' => 'required|numeric'
-//        );
-//        $validator = Validator::make(Input::all(), $rules);
-//
-//        // process the login
-//        if ($validator->fails()) {
-//            return Redirect::to('nerds/' . $id . '/edit')
-//                ->withErrors($validator)
-//                ->withInput(Input::except('password'));
-//        } else {
+        // Validates the data and redirects the user if they entered data incorrectly
+        $request->validate([
+            'description' => 'required',
+            'position_found' => 'required|numeric',
+            'position_radius' => 'sometimes|numeric',
+            'finder_email' => 'sometimes|email',
+            'hidden' => 'sometimes|boolean',
+        ]);
         // store
         $item = Item::find($request->id);
         $item->description = $request->description;

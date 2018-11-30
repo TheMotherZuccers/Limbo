@@ -29,7 +29,7 @@ Route::get('/user/{id}', ['middleware' => 'admin', function ($id) {
     return \App\Http\Controllers\Auth\UserController::edit($id);
 }]);
 
-// Generates the nessesary routes for authentication
+// Generates the necessary routes for authentication
 Auth::routes();
 
 // Homepage for users when they initially login

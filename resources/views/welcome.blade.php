@@ -134,6 +134,15 @@
     </script>
 
     <div class="flex-center position-ref full-height content">
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <div class="laravel-style-bois">
             <h2>{{ config('app.name') }}</h2>
             <h4>Lost and Found Done Right</h4>
