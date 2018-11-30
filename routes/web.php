@@ -13,6 +13,7 @@
 */
 
 // Home page route
+use App\Repositories\ItemRepository;
 Route::get('/', 'ItemController@paginate_five');
 
 // Page to update items (for admins and posters) and to view information on an item (everybody)
@@ -46,3 +47,17 @@ Route::get('report_item/{senario}','ItemController@add_item')->where('senario', 
 Route::post('report_item', ['as' => 'form_url', 'uses' => 'ItemController@store']);
 
 Route::post('claim_item', ['as' => 'form_url', 'uses' => 'ItemClaimController@store']);
+
+Route::get('search', function (ItemRepository $repository) {
+    $items = $repository->search((string) request('q'));
+
+    return view('search', [
+        'items' => $items,
+    ]);
+});
+
+Route::get('searchastype', 'ItemSearchController@search_as_type');
+
+Route::get('responsive_pagination', 'ItemController@responsive_pagination');
+
+Route::post('approve_claim', ['as' => 'form_url', 'uses' => 'ItemClaimController@approve_claim']);

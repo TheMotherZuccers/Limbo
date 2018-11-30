@@ -17,14 +17,129 @@
         $(function () {
             $('table').tableoverflow();
         });
+
+        var n = 4;
+
+        function addRowHandlers() {
+            var table = document.getElementById("item-table-body");
+            var rows = table.getElementsByTagName("tr");
+            for (i = 0; i < rows.length; i++) {
+                var currentRow = table.rows[i];
+                var createClickHandler = function (row) {
+                    return function () {
+                        var cell = row.getElementsByTagName("td")[0];
+                        var id = cell.innerText.trim();
+                        popupDict[id].openPopup();
+                    };
+                };
+                currentRow.onclick = createClickHandler(currentRow);
+            }
+        }
+
+        function replace_table(_response) {
+            // Remove current rows from the table and the table from formatting
+            $.tableoverflow.removeTable($('#item_table'));
+
+            var parser = new DOMParser();
+            var doc = parser.parseFromString(_response, 'text/html');
+
+            var table = doc.getElementById('item_table');
+
+            $('#item_table').replaceWith(table);
+
+            $('#item-table-body tr td:first-child').each(function () {
+                $.ajax({
+                    url: '{{ config('app.url') }}/api/items/' + $(this).text(),
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (_response) {
+                        var item = _response;
+                        var marker = L.marker([item['position_found']['coordinates'][1], item['position_found']['coordinates'][0]]).addTo(layerGroup);
+                        marker.bindPopup("<b>" + item['description'] + "</b><br>Time Found: " + item['created_at'] + "<br><a href=\'/item/" + item['id'] + "\'>Item Information</a><br>");
+                        popupDict[item['id']] = marker;
+                    },
+                    error: function (_response) {
+                        console.log(_response);
+                    }
+                });
+            });
+
+            addRowHandlers();
+
+            $(".pagination li a").each(function (index, value) {
+                value.setAttribute('href', value + '&n=' + n);
+            }).click(function (event) {
+                event.preventDefault();
+
+                $.ajax({
+                    url: $(this).attr('href'),
+                    type: 'GET',
+                    dataType: 'html',
+                    success: function (_response) {
+                        layerGroup.clearLayers();
+                        replace_table(_response);
+                    },
+                    error: function (_response) {
+                        console.log(_response);
+                    }
+                });
+            });
+
+            // redo the table overflow fix with the new items
+            $('table').tableoverflow();
+            // band aid
+            $(document).scrollTop(0);
+        }
+
+        // Runs when the document loads. Does initial responsiveness to page
+        $(document).ready(function () {
+            $.ajax({
+                url: '{{ config('app.url', 'limbo.loc') }}/responsive_pagination',
+                type: 'GET',
+                data: {
+                    'n': n
+                },
+                dataType: 'html',
+                success: function (_response) {
+                    replace_table(_response);
+                },
+                error: function (_response) {
+                    console.log(_response);
+                }
+            });
+        });
+
+        // $('.pagination li a').click(function (event) {
+        //     console.log('hi');
+        //     event.preventDefault();
+        //
+        //     console.log($(this).attr('href'));
+        //
+        //     $.ajax({
+        //         url: $(this).attr('href'),
+        //         type: 'GET',
+        //         dataType: 'html',
+        //         success: function (_response) {
+        //             replace_table(_response);
+        //         },
+        //         error: function (_response) {
+        //             console.log(_response);
+        //         }
+        //     });
+        // }
+
+        // )
+        // ;
+
     </script>
 
     <div class="flex-center position-ref full-height content">
         <div class="laravel-style-bois">
-            <h1>{{ config('app.name') }}</h1>
-            <h3>Lost and Found Done Right</h3>
+            <h2>{{ config('app.name') }}</h2>
+            <h4>Lost and Found Done Right</h4>
             <div class="row justify-content-center" style="height: 70%">
-                <div class="col-5">
+                {{-- Height being 50% will only matter when the two columns stack --}}
+                <div class="col-md-5 col-sm-12" style="height: 50%">
                     <h4>Click on any item to see its location on the map</h4>
                     <table class="table table-striped" id="item_table">
                         <thead>
@@ -34,23 +149,21 @@
                             <th scope="col">Time Entered</th>
                         </tr>
                         </thead>
-                        <tbody id="item-table-body">
-                        @foreach($items as $item)
-                            <tr>
-                                <td scope="row">{{$item->id}}</td>
-                                {{-- TODO limit the character's based on the size of the text area --}}
-                                <td>{{ $item->description }}</td>
-                                <td>{{ $item->created_at }}</td>
-                            </tr>
-                        @endforeach
-                        <caption align="bottom">
-                            {{ $items->links() }}
-                        </caption>
-                        </tbody>
+                        {{--<tbody id="item-table-body">--}}
+                        {{--@foreach($items as $item)--}}
+                            {{--<tr>--}}
+                                {{--<td scope="row">{{$item->id}}</td>--}}
+                                {{--<td>{{ $item->description }}</td>--}}
+                                {{--<td>{{ $item->created_at }}</td>--}}
+                            {{--</tr>--}}
+                        {{--@endforeach--}}
+                        {{--<caption align="bottom">--}}
+                            {{--{{ $items->links() }}--}}
+                        {{--</caption>--}}
+                        {{--</tbody>--}}
                     </table>
-
                 </div>
-                <div class="col-5">
+                <div class="col-md-5 col-sm-12">
                     {{-- Starts as hidden so our magic JS can make it visible when it's loaded --}}
                     <div id="mapid" style="height: 100%; width: 100%; display: none;"></div>
                 </div>
@@ -74,35 +187,10 @@
             accessToken: 'pk.eyJ1Ijoid2lsbGlhbWtsdWdlIiwiYSI6ImNqbW04eXB5dzBna2szcW83ajdlb2xpcmwifQ.RdkpVNHpUdMLV-2GJlTGTQ'
         }).addTo(mymap);
 
+        var layerGroup = L.layerGroup().addTo(mymap);
+
         // Dictionary for storing the popups to be used with table clicks
         var popupDict = {};
-
-                @foreach($items as $item)
-        var marker = L.marker([{{  $item->position_found->getLat() }}, {{ $item->position_found->getLng() }}]).addTo(mymap);
-        marker.bindPopup("<b>{{ $item->description }}</b><br>Time Found: {{ $item->created_at }}<br><a href=\'/item/{{ $item->id }}\'>Item Information</a><br>");
-        popupDict["{{ $item->id }}"] = marker;
-
-        @endforeach
-
-        function addRowHandlers() {
-            var table = document.getElementById("item-table-body");
-            var rows = table.getElementsByTagName("tr");
-            for (i = 0; i < rows.length; i++) {
-                var currentRow = table.rows[i];
-                var createClickHandler = function (row) {
-                    return function () {
-                        var cell = row.getElementsByTagName("td")[0];
-                        console.log(cell);
-                        var id = cell.innerText.trim();
-                        console.log(id);
-                        popupDict[id].openPopup();
-                    };
-                };
-                currentRow.onclick = createClickHandler(currentRow);
-            }
-        }
-
-        addRowHandlers();
 
     </script>
 @endsection

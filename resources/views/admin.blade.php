@@ -34,7 +34,7 @@
     {{-- Table scales on any screen size --}}
 
     <div>
-        <h4>Click on any item edit it</h4>
+        <h4>Click on any item to edit it</h4>
         <table class="table table-striped clickable-table" id="item_table">
             <thead>
             <tr>
@@ -51,12 +51,13 @@
                 
                 <?php
                 $status_color = 'mintcream';
-                if ($item->claims()->count() > 0){
+
+                if ($item->claimed){
+                    $status_color = 'darkseagreen'; //if item has been claimed and returned, the status color is green
+                } elseif ($item->claims()->count() > 0){
                     $status_color = 'goldenrod'; //if item is claimed or returned, the status color is yellow
                 } elseif ($item->hidden){
                     $status_color = 'lightcoral'; //if item is no longer active, the status color is red
-                } elseif ($item->claimed){
-                    $status_color = 'darkseagreen'; //if item has been claimed and returned, the status color is green
                 } else {
                     $status_color = 'mintcream';
                 }
@@ -67,14 +68,42 @@
                     <td>{{ $item->created_at }}</td>
                     <td>{{ $item->updated_at }} </td>
                     <td>{{ $item->position_comment }}</td>
-                    <td>{{ $item->finder->email }}</td>  
+
+                    <td>{{ $item->finder->email }}</td>
                 </tr>
             @endforeach
-                <caption align="bottom">
-                    {{ $items->links() }}
-                </caption>
             </tbody>
         </table>
     </div>
+
+    <div>
+            <h4>Click on any user to edit it</h4>
+            <table class="table table-striped clickable-table" id="item_table">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Created At</th>
+                    <th scope="col">Updated At</th>
+                    <th scope="col">User Type</th>
+                </tr>
+                </thead>
+                <tbody id="user-table-body">
+
+                @foreach($users as $user)
+
+                    <tr class='table-tr' data-url="/user/{{ $user->id }}">
+                        <td>{{ $user->id }}</td>
+                        <td>{{ $user->name }}</td>
+                        <td>{{ $user->email }} </td>
+                        <td>{{ $user->created_at }}</td>
+                        <td>{{ $user->updated_at }}</td>
+                        <td>{{ $user->type }}</td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
 
 @endsection

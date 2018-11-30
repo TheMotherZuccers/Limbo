@@ -2,12 +2,14 @@
 
 namespace App;
 
+use App\Search\SearchableTrait;
 use Illuminate\Database\Eloquent\Model;
 use Grimzy\LaravelMysqlSpatial\Eloquent\SpatialTrait;
 
-class Item extends Model {
-
+class Item extends Model
+{
     use SpatialTrait;
+    use SearchableTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -15,7 +17,12 @@ class Item extends Model {
      * @var array
      */
     protected $fillable = [
-        'description', 'notable_damage', 'environment_found', 'position_found', 'position_radius', 'position_comment',
+        'description',
+        'notable_damage',
+        'environment_found',
+        'position_found',
+        'position_radius',
+        'position_comment',
     ];
 
     /**
@@ -24,14 +31,18 @@ class Item extends Model {
      * @var array
      */
     protected $hidden = [
-        'finder_email', 'admin_email',
+        'finder_email',
+        'admin_email',
     ];
 
     protected $spatialFields = [
-      'position_found',
+        'position_found',
     ];
 
-    public function finder() {
+    protected $appends = array('claimed');
+
+    public function finder()
+    {
         return $this->belongsTo('App\User', 'finder_id');
     }
 
@@ -40,8 +51,13 @@ class Item extends Model {
         return $this->hasMany('App\ItemClaim');
     }
 
-    public function has_claims() {
+    public function has_claims()
+    {
         return $this;
     }
 
+    public function getClaimedAttribute()
+    {
+        return $this->claims()->count() & $this->claims()->where('claimed', '=', '1')->count() != 0 > 0 ? 1 : 0;
+    }
 }
