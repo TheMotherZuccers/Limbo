@@ -30,6 +30,11 @@ class ItemController extends Controller {
         return View('welcome', compact('items'));
     }
 
+     public static function paginate_items_admin() {
+        $items = Item::paginate(5);
+        return View('admin', compact('items'));
+    }
+    
     public static function get_detailed_items() {
 
     }

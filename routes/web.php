@@ -36,7 +36,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 // Admin dashboard
 Route::get('admin', ['middleware' => 'admin', function () {
-    return \App\Http\Controllers\DataRetrieval\AdminController::admin_home();
+    return \App\Http\Controllers\ItemController::paginate_items_admin();
 }]);
 
 // Report item page

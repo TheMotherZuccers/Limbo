@@ -67,9 +67,12 @@
                     <td>{{ $item->created_at }}</td>
                     <td>{{ $item->updated_at }} </td>
                     <td>{{ $item->position_comment }}</td>
-                    <td>{{ $item->finder->email }}</td>
+                    <td>{{ $item->finder->email }}</td>  
                 </tr>
             @endforeach
+                <caption align="bottom">
+                    {{ $items->links() }}
+                </caption>
             </tbody>
         </table>
     </div>
